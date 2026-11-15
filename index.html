@@ -1,0 +1,2546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BEYOND EARTH — Archive of Forgotten Space Explorers</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,600;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-obsidian: #06070a;
+      --bg-surface: rgba(14, 16, 22, 0.92);
+      --bg-elevated: rgba(20, 23, 31, 0.95);
+      --border-hairline: rgba(226, 217, 200, 0.16);
+      --border-strong: rgba(201, 162, 94, 0.45);
+      --accent-champagne: #c9a25e;
+      --accent-lunar: #94b8d7;
+      --accent-terracotta: #d97757;
+      --accent-sage: #5c9c78;
+      --accent-crimson: #c85a5a;
+      --text-alabaster: #f4f1ea;
+      --text-parchment: #d5d0c5;
+      --text-muted: #8e8a80;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background-color: var(--bg-obsidian);
+      color: var(--text-alabaster);
+      line-height: 1.85;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Bespoke Archival Background */
+    .cosmos-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      background-size: cover;
+      background-position: center;
+      transition: background-image 0.6s ease;
+      transform: translateZ(0);
+    }
+
+    .cosmos-backdrop.bg-home,
+    .cosmos-backdrop.bg-quiz {
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(201, 162, 94, 0.14) 0%, transparent 55%),
+        linear-gradient(180deg, rgba(6, 7, 10, 0.72) 0%, rgba(6, 7, 10, 0.96) 100%),
+        url('https://upload.wikimedia.org/wikipedia/commons/e/e1/FullMoon2010.jpg');
+    }
+
+    .cosmos-backdrop.bg-moon {
+      background-image:
+        radial-gradient(circle at 20% 20%, rgba(148, 184, 215, 0.15) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(6, 7, 10, 0.80) 0%, rgba(6, 7, 10, 0.96) 100%),
+        url('https://upload.wikimedia.org/wikipedia/commons/9/98/Aldrin_Apollo_11_original.jpg');
+    }
+
+    .cosmos-backdrop.bg-mars {
+      background-image:
+        radial-gradient(circle at 80% 20%, rgba(217, 119, 87, 0.16) 0%, transparent 50%),
+        linear-gradient(180deg, rgba(12, 8, 7, 0.80) 0%, rgba(6, 7, 10, 0.96) 100%),
+        url('https://images-assets.nasa.gov/image/PIA07269/PIA07269~orig.jpg');
+    }
+
+    .archival-grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(244, 241, 234, 0.028) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(244, 241, 234, 0.028) 1px, transparent 1px);
+      background-size: 96px 96px;
+      mask-image: radial-gradient(circle at 50% 35%, black 30%, transparent 90%);
+    }
+
+    .stars-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1px 1px at 80px 120px, rgba(244, 241, 234, 0.7), transparent),
+        radial-gradient(1px 1px at 240px 280px, rgba(201, 162, 94, 0.6), transparent),
+        radial-gradient(1.5px 1.5px at 420px 90px, rgba(244, 241, 234, 0.5), transparent);
+      background-size: 520px 380px;
+      opacity: 0.45;
+    }
+
+    /* Sticky Editorial Navigation Bar */
+    .top-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(6, 7, 10, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-hairline);
+      padding: 1rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand-logo {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: 3.5px;
+      color: var(--text-alabaster);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    .brand-mark {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-champagne);
+      transform: rotate(45deg);
+      display: inline-block;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .nav-btn {
+      font-family: var(--font-mono);
+      background: transparent;
+      border: 1px solid var(--border-hairline);
+      color: var(--text-parchment);
+      padding: 0.55rem 1.15rem;
+      border-radius: 4px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .nav-btn:hover {
+      color: var(--text-alabaster);
+      border-color: var(--accent-champagne);
+      background: rgba(201, 162, 94, 0.08);
+    }
+
+    .nav-btn.active {
+      background: rgba(201, 162, 94, 0.16);
+      border-color: var(--accent-champagne);
+      color: var(--text-alabaster);
+    }
+
+    .nav-btn.mars-active {
+      background: rgba(217, 119, 87, 0.18);
+      border-color: var(--accent-terracotta);
+      color: var(--text-alabaster);
+    }
+
+    .nav-btn.quiz-active {
+      background: rgba(92, 156, 120, 0.2);
+      border-color: var(--accent-sage);
+      color: var(--text-alabaster);
+    }
+
+    .nav-btn.locked-quiz {
+      opacity: 0.55;
+      border-style: dashed;
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      display: inline-block;
+    }
+
+    .status-dot.done {
+      background: var(--accent-sage);
+      box-shadow: 0 0 8px var(--accent-sage);
+    }
+
+    .page-view {
+      display: none;
+      animation: fadeInPage 0.4s ease;
+    }
+
+    .page-view.active {
+      display: block;
+    }
+
+    @keyframes fadeInPage {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =================================================
+       1. HOME PAGE
+       ================================================= */
+    .home-container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem;
+    }
+
+    .home-hero {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      padding: 5rem 2.5rem 4.2rem;
+      text-align: center;
+      background:
+        linear-gradient(180deg, rgba(6, 7, 10, 0.45) 0%, rgba(6, 7, 10, 0.94) 100%),
+        url('https://images-assets.nasa.gov/image/as11-44-6549/as11-44-6549~orig.jpg') center/cover no-repeat;
+      border: 1px solid var(--border-strong);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85);
+      margin-bottom: 2.75rem;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-mono);
+      display: inline-block;
+      color: var(--accent-champagne);
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      padding: 0.4rem 1.1rem;
+      border: 1px solid var(--border-strong);
+      background: rgba(6, 7, 10, 0.75);
+      margin-bottom: 1.4rem;
+    }
+
+    .home-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 4.75rem);
+      font-weight: 800;
+      letter-spacing: 5px;
+      color: var(--text-alabaster);
+      line-height: 1.08;
+      margin-bottom: 0.85rem;
+    }
+
+    .home-subtitle {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+      color: var(--text-parchment);
+      max-width: 680px;
+      margin: 0 auto 2.4rem;
+    }
+
+    .begin-journey-btn {
+      font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: var(--accent-champagne);
+      color: #06070a;
+      border: 1px solid var(--accent-champagne);
+      padding: 0.95rem 2.2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .begin-journey-btn:hover {
+      background: transparent;
+      color: var(--text-alabaster);
+    }
+
+    .story-intro-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.4rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .intro-story-card {
+      background: var(--bg-surface);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-hairline);
+      border-top: 2px solid var(--accent-champagne);
+      border-radius: 8px;
+      padding: 1.85rem 1.6rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .intro-story-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-strong);
+    }
+
+    .story-card-step {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--accent-champagne);
+      margin-bottom: 0.55rem;
+    }
+
+    .story-card-heading {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text-alabaster);
+      margin-bottom: 0.7rem;
+    }
+
+    .story-card-text {
+      font-size: 0.96rem;
+      color: var(--text-parchment);
+      line-height: 1.75;
+    }
+
+    .welcome-banner-box {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      padding: 2.5rem 2.2rem;
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .welcome-quote-big {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+      font-weight: 400;
+      color: var(--text-alabaster);
+      max-width: 820px;
+      margin: 0 auto 0.85rem;
+    }
+
+    .welcome-sub-gold {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-champagne);
+    }
+
+    .section-header-block {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-champagne);
+      display: block;
+      margin-bottom: 0.35rem;
+    }
+
+    .section-header-block h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.85rem, 3vw, 2.45rem);
+      font-weight: 600;
+      color: var(--text-alabaster);
+    }
+
+    .section-header-block p {
+      color: var(--text-muted);
+      font-size: 1rem;
+      margin-top: 0.35rem;
+    }
+
+    .fun-facts-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.2rem;
+      margin-bottom: 4rem;
+    }
+
+    .fun-fact-pill {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 8px;
+      padding: 1.35rem 1.4rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.1rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .fun-fact-pill:hover {
+      border-color: var(--border-strong);
+    }
+
+    .fun-fact-num {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--accent-champagne);
+      border: 1px solid var(--border-strong);
+      padding: 0.25rem 0.55rem;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .fun-fact-text {
+      font-size: 0.92rem;
+      color: var(--text-parchment);
+      line-height: 1.6;
+    }
+
+    .fun-fact-text strong {
+      color: var(--text-alabaster);
+      display: block;
+      font-size: 0.98rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .portal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    @media (max-width: 780px) {
+      .portal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .portal-card {
+      position: relative;
+      border-radius: 10px;
+      overflow: hidden;
+      padding: 3rem 2.25rem;
+      min-height: 440px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      cursor: pointer;
+      border: 1px solid var(--border-hairline);
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+
+    .portal-card.moon-portal {
+      background:
+        linear-gradient(180deg, rgba(6, 7, 10, 0.15) 0%, rgba(6, 7, 10, 0.95) 75%),
+        url('https://images-assets.nasa.gov/image/as17-147-22526/as17-147-22526~orig.jpg') center/cover no-repeat;
+    }
+
+    .portal-card.moon-portal:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-lunar);
+    }
+
+    .portal-card.mars-portal {
+      background:
+        linear-gradient(180deg, rgba(15, 7, 5, 0.15) 0%, rgba(10, 6, 5, 0.95) 75%),
+        url('https://images-assets.nasa.gov/image/PIA01122/PIA01122~orig.jpg') center/cover no-repeat;
+    }
+
+    .portal-card.mars-portal:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-terracotta);
+    }
+
+    .portal-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      padding: 0.3rem 0.75rem;
+      border-radius: 3px;
+      width: fit-content;
+      margin-bottom: 0.85rem;
+    }
+
+    .portal-title {
+      font-family: var(--font-display);
+      font-size: 2.25rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: var(--text-alabaster);
+    }
+
+    .portal-desc {
+      color: var(--text-parchment);
+      font-size: 0.98rem;
+      margin-bottom: 1.6rem;
+      line-height: 1.65;
+    }
+
+    .portal-cta {
+      font-family: var(--font-mono);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      padding: 0.8rem 1.4rem;
+      border-radius: 4px;
+      width: fit-content;
+      border: none;
+      cursor: pointer;
+    }
+
+    .home-quiz-banner {
+      margin-top: 2.5rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 2.2rem 2.4rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .home-quiz-banner:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-champagne);
+    }
+
+    /* =================================================
+       2. SIDEBAR-DRIVEN STORYBOOK LAYOUT (MOON & MARS)
+       ================================================= */
+    .volume-workspace {
+      max-width: 1240px;
+      margin: 2.2rem auto 5rem;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 310px 1fr;
+      gap: 2rem;
+      align-items: start;
+    }
+
+    @media (max-width: 960px) {
+      .volume-workspace {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Left Chapter Sidebar */
+    .chapter-sidebar {
+      position: sticky;
+      top: 5.2rem;
+      background: var(--bg-surface);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-hairline);
+      border-radius: 10px;
+      padding: 1.5rem 1.25rem;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
+    }
+
+    .sidebar-vol-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--accent-champagne);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-vol-title {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 600;
+      color: var(--text-alabaster);
+      margin-bottom: 0.35rem;
+    }
+
+    .sidebar-progress-line {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.9rem;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .chapter-side-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .chapter-side-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--border-hairline);
+      color: var(--text-parchment);
+      padding: 0.75rem 0.9rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.6rem;
+    }
+
+    .chapter-side-btn:hover {
+      border-color: var(--accent-champagne);
+      color: var(--text-alabaster);
+      background: rgba(201, 162, 94, 0.08);
+    }
+
+    .chapter-side-btn.active-moon-ch {
+      background: rgba(148, 184, 215, 0.16);
+      border-color: var(--accent-lunar);
+      color: var(--text-alabaster);
+    }
+
+    .chapter-side-btn.active-mars-ch {
+      background: rgba(217, 119, 87, 0.18);
+      border-color: var(--accent-terracotta);
+      color: var(--text-alabaster);
+    }
+
+    .ch-btn-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .ch-btn-num {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--accent-champagne);
+    }
+
+    .ch-btn-name {
+      font-size: 0.88rem;
+      font-weight: 600;
+      line-height: 1.3;
+    }
+
+    .ch-check-indicator {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.15rem 0.45rem;
+      border-radius: 3px;
+      border: 1px solid var(--border-hairline);
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .ch-check-indicator.read {
+      border-color: var(--accent-sage);
+      color: var(--accent-sage);
+      background: rgba(92, 156, 120, 0.14);
+    }
+
+    /* Right Chapter Reader Panel */
+    .storybook-page {
+      background: var(--bg-surface);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-hairline);
+      border-radius: 10px;
+      padding: 2.75rem 2.6rem;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65);
+      animation: fadeInPage 0.35s ease;
+    }
+
+    @media (max-width: 680px) {
+      .storybook-page {
+        padding: 1.85rem 1.3rem;
+      }
+    }
+
+    .storybook-page.moon-page {
+      border-top: 3px solid var(--accent-lunar);
+    }
+
+    .storybook-page.mars-page {
+      border-top: 3px solid var(--accent-terracotta);
+    }
+
+    .book-chapter-label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-champagne);
+      margin-bottom: 0.45rem;
+    }
+
+    .book-chapter-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.65rem, 2.8vw, 2.25rem);
+      font-weight: 600;
+      color: var(--text-alabaster);
+      margin-bottom: 1.5rem;
+      line-height: 1.25;
+    }
+
+    /* Centered Archival Plate Frame (Guarantees Centered Display & Fallback) */
+    .book-illustration {
+      background: #040508;
+      border: 1px solid var(--border-hairline);
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 0 auto 1.85rem;
+      cursor: zoom-in;
+      transition: border-color 0.2s ease;
+      text-align: center;
+    }
+
+    .book-illustration:hover {
+      border-color: var(--accent-champagne);
+    }
+
+    .book-illustration-stage {
+      width: 100%;
+      min-height: 320px;
+      max-height: 440px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 50% 50%, #10141f 0%, #05060a 100%);
+      padding: 1rem;
+    }
+
+    .book-illustration img {
+      max-width: 100%;
+      max-height: 400px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto;
+      border-radius: 4px;
+    }
+
+    .book-caption {
+      font-family: var(--font-mono);
+      padding: 0.85rem 1.2rem;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      background: rgba(6, 7, 10, 0.95);
+      border-top: 1px solid var(--border-hairline);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      text-align: left;
+    }
+
+    .zoom-hint {
+      color: var(--accent-champagne);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .machine-diary-bubble {
+      font-family: var(--font-display);
+      background: rgba(6, 7, 10, 0.75);
+      border-left: 3px solid var(--accent-champagne);
+      padding: 1.35rem 1.6rem;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text-alabaster);
+      margin-bottom: 1.65rem;
+      line-height: 1.75;
+    }
+
+    .machine-diary-speaker {
+      font-family: var(--font-mono);
+      display: block;
+      font-style: normal;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-champagne);
+      margin-bottom: 0.4rem;
+    }
+
+    .book-story-text p {
+      font-size: 1.06rem;
+      color: var(--text-parchment);
+      margin-bottom: 1.25rem;
+      line-height: 1.88;
+    }
+
+    .book-story-text p.first-para::first-letter {
+      font-family: var(--font-display);
+      float: left;
+      font-size: 3.3rem;
+      line-height: 0.82;
+      padding-top: 6px;
+      padding-right: 12px;
+      font-weight: 800;
+      color: var(--accent-champagne);
+    }
+
+    /* Point-Wise Chapter Summary Box */
+    .chapter-summary-box {
+      background: rgba(92, 156, 120, 0.08);
+      border: 1px solid rgba(92, 156, 120, 0.38);
+      border-radius: 8px;
+      padding: 1.4rem 1.6rem;
+      margin-top: 1.6rem;
+    }
+
+    .summary-box-title {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.6px;
+      color: var(--accent-sage);
+      margin-bottom: 0.7rem;
+    }
+
+    .chapter-summary-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .chapter-summary-box li {
+      font-size: 0.97rem;
+      color: var(--text-alabaster);
+      margin-bottom: 0.6rem;
+      line-height: 1.65;
+      padding-left: 1.35rem;
+      position: relative;
+    }
+
+    .chapter-summary-box li:last-child {
+      margin-bottom: 0;
+    }
+
+    .chapter-summary-box li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: var(--accent-sage);
+      font-weight: 900;
+      font-size: 1.2rem;
+      line-height: 1.3;
+    }
+
+    /* Archival Field Notes (Fun Facts) Box */
+    .chapter-funfacts-box {
+      background: rgba(201, 162, 94, 0.06);
+      border: 1px solid rgba(201, 162, 94, 0.28);
+      border-radius: 8px;
+      padding: 1.35rem 1.6rem;
+      margin-top: 1.25rem;
+    }
+
+    .funfacts-title {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent-champagne);
+      margin-bottom: 0.65rem;
+    }
+
+    .chapter-funfacts-box ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .chapter-funfacts-box li {
+      font-size: 0.95rem;
+      color: var(--text-parchment);
+      margin-bottom: 0.55rem;
+      line-height: 1.6;
+      padding-left: 1.25rem;
+      position: relative;
+    }
+
+    .chapter-funfacts-box li:last-child {
+      margin-bottom: 0;
+    }
+
+    .chapter-funfacts-box li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--accent-champagne);
+      font-weight: 700;
+    }
+
+    .keepsake-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1rem;
+      margin-top: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .keepsake-item {
+      background: rgba(6, 7, 10, 0.82);
+      border: 1px solid var(--border-hairline);
+      border-radius: 6px;
+      padding: 1.15rem;
+    }
+
+    .keepsake-item h4 {
+      font-family: var(--font-display);
+      color: var(--accent-champagne);
+      font-size: 1.05rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .keepsake-item p {
+      font-size: 0.92rem;
+      color: var(--text-parchment);
+      line-height: 1.58;
+      margin: 0;
+    }
+
+    /* Chapter Bottom Navigation Bar */
+    .chapter-pager-bar {
+      margin-top: 2rem;
+      padding-top: 1.4rem;
+      border-top: 1px solid var(--border-hairline);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    /* =================================================
+       3. LOCKED / UNLOCKED QUIZ & HONOUR ROLL VIEW
+       ================================================= */
+    .quiz-container {
+      max-width: 1080px;
+      margin: 2.5rem auto 5rem;
+      padding: 0 1.5rem;
+    }
+
+    .quiz-lock-card {
+      max-width: 720px;
+      margin: 3rem auto;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 3rem 2.4rem;
+      text-align: center;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+    }
+
+    .lock-checklist {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin: 1.8rem 0;
+      text-align: left;
+    }
+
+    @media (max-width: 640px) {
+      .lock-checklist {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .lock-status-box {
+      background: rgba(6, 7, 10, 0.85);
+      border: 1px solid var(--border-hairline);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .lock-status-box.completed {
+      border-color: var(--accent-sage);
+      background: rgba(92, 156, 120, 0.08);
+    }
+
+    .quiz-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 1.75rem;
+      align-items: start;
+    }
+
+    @media (max-width: 920px) {
+      .quiz-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .quiz-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      padding: 2.4rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+    }
+
+    .quiz-progress-track {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 0.9rem 0 1.6rem;
+    }
+
+    .quiz-progress-fill {
+      height: 100%;
+      width: 10%;
+      background: var(--accent-champagne);
+      transition: width 0.3s ease;
+    }
+
+    .quiz-question-text {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 600;
+      color: var(--text-alabaster);
+      margin-bottom: 1.4rem;
+      line-height: 1.45;
+    }
+
+    .quiz-opt-btn {
+      width: 100%;
+      text-align: left;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-hairline);
+      color: var(--text-parchment);
+      padding: 1rem 1.2rem;
+      border-radius: 6px;
+      margin-bottom: 0.75rem;
+      font-size: 0.96rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .quiz-opt-btn:hover:not(:disabled) {
+      border-color: var(--accent-champagne);
+      color: var(--text-alabaster);
+      background: rgba(201, 162, 94, 0.08);
+    }
+
+    .quiz-opt-btn.correct {
+      background: rgba(92, 156, 120, 0.22);
+      border-color: var(--accent-sage);
+      color: #d1fae5;
+    }
+
+    .quiz-opt-btn.wrong {
+      background: rgba(200, 90, 90, 0.22);
+      border-color: var(--accent-crimson);
+      color: #ffe4e6;
+    }
+
+    .quiz-action-btn {
+      font-family: var(--font-mono);
+      background: var(--accent-champagne);
+      color: #06070a;
+      border: none;
+      padding: 0.85rem 1.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      cursor: pointer;
+    }
+
+    .quiz-action-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .leaderboard-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+    }
+
+    .lb-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      font-size: 0.92rem;
+    }
+
+    .lb-table th {
+      font-family: var(--font-mono);
+      text-align: left;
+      padding: 0.6rem;
+      border-bottom: 1px solid var(--border-hairline);
+      color: var(--text-muted);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .lb-table td {
+      padding: 0.75rem 0.6rem;
+      border-bottom: 1px solid rgba(226, 217, 200, 0.08);
+    }
+
+    .name-input {
+      flex: 1;
+      background: rgba(6, 7, 10, 0.9);
+      border: 1px solid var(--border-strong);
+      color: var(--text-alabaster);
+      padding: 0.75rem 1rem;
+      border-radius: 4px;
+      font-size: 0.95rem;
+    }
+
+    /* Fullscreen Lightbox Modal */
+    .photo-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      background: rgba(4, 5, 8, 0.95);
+      backdrop-filter: blur(12px);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+
+    .photo-lightbox.open {
+      display: flex;
+    }
+
+    .lightbox-img {
+      max-width: 92vw;
+      max-height: 78vh;
+      border-radius: 6px;
+      border: 1px solid var(--accent-champagne);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.95);
+      object-fit: contain;
+    }
+
+    .lightbox-caption {
+      font-family: var(--font-mono);
+      max-width: 760px;
+      text-align: center;
+      margin-top: 1rem;
+      color: var(--text-parchment);
+      font-size: 0.85rem;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--border-hairline);
+      color: #fff;
+      width: 42px;
+      height: 42px;
+      border-radius: 4px;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="cosmos-backdrop bg-home" id="bgLayer"></div>
+  <div class="archival-grid-overlay"></div>
+  <div class="stars-overlay"></div>
+
+  <!-- TOP NAVIGATION -->
+  <header class="top-nav">
+    <div class="brand-logo" onclick="openPage('home')">
+      <span class="brand-mark"></span>
+      <span>BEYOND EARTH</span>
+    </div>
+    <nav class="nav-links">
+      <button class="nav-btn active" id="nav-home" onclick="openPage('home')">00. Overview</button>
+      <button class="nav-btn" id="nav-moon" onclick="openPage('moon')">
+        <span class="status-dot" id="navDotMoon"></span>
+        <span>01. The Moon</span>
+      </button>
+      <button class="nav-btn" id="nav-mars" onclick="openPage('mars')">
+        <span class="status-dot" id="navDotMars"></span>
+        <span>02. Mars</span>
+      </button>
+      <button class="nav-btn locked-quiz" id="nav-quiz" onclick="openPage('quiz')">
+        <span id="navQuizLabel">03. Archive Quiz [Locked]</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- =========================================================
+       VIEW 1: HOME PAGE
+       ========================================================= -->
+  <main id="page-home" class="page-view active">
+    <div class="home-container">
+      <section class="home-hero">
+        <span class="hero-eyebrow">NASA Historical Hardware Exhibition</span>
+        <h1 class="home-title">BEYOND EARTH</h1>
+        <p class="home-subtitle">Every journey leaves a trace. Every machine has a story.</p>
+
+        <button class="begin-journey-btn" onclick="scrollToPortals()">
+          <span>Begin Journey</span>
+          <span>&darr;</span>
+        </button>
+      </section>
+
+      <section class="story-intro-grid">
+        <article class="intro-story-card">
+          <div class="story-card-step">Part I &mdash; The Departure</div>
+          <h3 class="story-card-heading">Beyond the Sky</h3>
+          <p class="story-card-text">
+            Imagine a world where the sky is no longer the limit. A tiny machine leaves Earth, carrying the dreams, questions and curiosity of an entire civilisation. It travels through darkness, crosses millions of kilometres and reaches a world no human has ever touched.
+          </p>
+        </article>
+
+        <article class="intro-story-card">
+          <div class="story-card-step">Part II &mdash; The Explorers</div>
+          <h3 class="story-card-heading">Footprints in the Dust</h3>
+          <p class="story-card-text">
+            Somewhere on the Moon, a silent laboratory still holds the memories of scientific discoveries. Across the dusty deserts of Mars, robotic explorers have travelled through ancient landscapes, searching for clues hidden in the soil. Far beyond the planets, spacecraft continue their lonely journeys into the unknown.
+          </p>
+        </article>
+
+        <article class="intro-story-card">
+          <div class="story-card-step">Part III &mdash; The Silence</div>
+          <h3 class="story-card-heading">When the Mission Ends</h3>
+          <p class="story-card-text">
+            But what happens when their missions end? Where do these machines go? What remains of their journeys? And what secrets do they leave behind? They may be silent, distant or forgotten, but they are not without a story.
+          </p>
+        </article>
+
+        <article class="intro-story-card">
+          <div class="story-card-step">Part IV &mdash; Our Legacy</div>
+          <h3 class="story-card-heading">Pieces of Humanity</h3>
+          <p class="story-card-text">
+            These are not merely machines left behind. They are pieces of humanity scattered across the universe. The universe is vast. Our curiosity is greater.
+          </p>
+        </article>
+      </section>
+
+      <section class="welcome-banner-box">
+        <div class="welcome-quote-big">
+          "They may be silent, distant or forgotten, but they are not without a story."
+        </div>
+        <div class="welcome-sub-gold">
+          Welcome to BEYOND EARTH &mdash; where forgotten explorers find their stories again.
+        </div>
+      </section>
+
+      <div class="section-header-block">
+        <span class="section-eyebrow">Curated Field Notes</span>
+        <h2>Six Remarkable Truths from the Archive</h2>
+        <p>Little-known stories behind the machines resting on the Moon and Mars.</p>
+      </div>
+
+      <section class="fun-facts-strip">
+        <div class="fun-fact-pill">
+          <span class="fun-fact-num">01</span>
+          <div class="fun-fact-text">
+            <strong>Saved by a Felt-Tip Pen</strong>
+            On Apollo 11, Buzz Aldrin accidentally snapped off the switch needed to start the engine to return home—so he used a felt-tip pen to push the circuit breaker back in.
+          </div>
+        </div>
+        <div class="fun-fact-pill">
+          <span class="fun-fact-num">02</span>
+          <div class="fun-fact-text">
+            <strong>Three Moon Cars Still Parked</strong>
+            Astronauts left three electric buggies on the Moon—and used their color television cameras to film themselves blasting off into orbit.
+          </div>
+        </div>
+        <div class="fun-fact-pill">
+          <span class="fun-fact-num">03</span>
+          <div class="fun-fact-text">
+            <strong>Golf Balls &amp; Family Portraits</strong>
+            Alongside rocket stages, astronauts left two golf balls, a solid-gold olive branch, and a family photograph in the lunar dust.
+          </div>
+        </div>
+        <div class="fun-fact-pill">
+          <span class="fun-fact-num">04</span>
+          <div class="fun-fact-text">
+            <strong>Driving Backward Across Mars</strong>
+            When the Spirit rover's front wheel broke, NASA drove it backward for years—and its dragging wheel scraped up pure silica from ancient hot springs.
+          </div>
+        </div>
+        <div class="fun-fact-pill">
+          <span class="fun-fact-num">05</span>
+          <div class="fun-fact-text">
+            <strong>Snowflakes on the Red Planet</strong>
+            In 2008, the Phoenix lander dug up bright white water ice in the Martian Arctic—and its laser beam spotted snow falling from Martian clouds.
+          </div>
+        </div>
+        <div class="fun-fact-pill">
+          <span class="fun-fact-num">06</span>
+          <div class="fun-fact-text">
+            <strong>72 Flights in Thin Martian Air</strong>
+            Little Ingenuity carried a piece of the 1903 Wright Brothers plane and flew 72 times—and still wakes up every morning to record the weather.
+          </div>
+        </div>
+      </section>
+
+      <section id="destinations-anchor">
+        <div class="section-header-block">
+          <span class="section-eyebrow">Select an Exhibition Volume</span>
+          <h2>Two Worlds of Forgotten Explorers</h2>
+          <p>Complete both the Lunar and Martian volumes to unlock the Space Archive Quiz.</p>
+        </div>
+
+        <div class="portal-grid">
+          <article class="portal-card moon-portal" onclick="openPage('moon')">
+            <span class="portal-tag" style="background: rgba(148, 184, 215, 0.18); color: var(--accent-lunar); border: 1px solid rgba(148, 184, 215, 0.4);">
+              Volume I &bull; 5 Chapters
+            </span>
+            <h3 class="portal-title">The Moon</h3>
+            <p class="portal-desc">
+              <strong>Forgotten Footprints of Apollo:</strong> Explore the Apollo Lunar Module descent stages, the three parked Moon cars, the nuclear ALSEP laboratories, the laser retroreflector mirrors, and the personal keepsakes astronauts left behind.
+            </p>
+            <button class="portal-cta" style="background: var(--accent-lunar); color: #06070a;">
+              Open Lunar Volume &rarr;
+            </button>
+          </article>
+
+          <article class="portal-card mars-portal" onclick="openPage('mars')">
+            <span class="portal-tag" style="background: rgba(217, 119, 87, 0.18); color: var(--accent-terracotta); border: 1px solid rgba(217, 119, 87, 0.4);">
+              Volume II &bull; 7 Chapters
+            </span>
+            <h3 class="portal-title">Mars</h3>
+            <p class="portal-desc">
+              <strong>The Robots of the Red Planet:</strong> Meet Mariner 9 (1971), Viking 1 &amp; 2 (1976), little Sojourner (1997), the twins Spirit &amp; Opportunity (2004), ice-finder Phoenix (2008), quake-listener InSight (2018), and Ingenuity (2021).
+            </p>
+            <button class="portal-cta" style="background: var(--accent-terracotta); color: #06070a;">
+              Open Martian Volume &rarr;
+            </button>
+          </article>
+        </div>
+
+        <div class="home-quiz-banner" onclick="openPage('quiz')">
+          <div>
+            <span class="portal-tag" id="homeQuizTag" style="background: rgba(201, 162, 94, 0.16); color: var(--accent-champagne); border: 1px solid var(--border-strong);">
+              Interactive Assessment &bull; Unlocks After Reading Both Volumes
+            </span>
+            <h3 style="font-family: var(--font-display); font-size: 1.65rem; font-weight: 600; margin-top: 0.35rem;">Space Archive Assessment &amp; Honour Roll</h3>
+            <p style="color: var(--text-parchment); font-size: 0.96rem;" id="homeQuizSubtext">
+              Read all 5 Moon chapters and all 7 Mars chapters to unlock the 10-question assessment.
+            </p>
+          </div>
+          <button class="portal-cta" style="background: var(--accent-champagne); color: #06070a;">
+            View Quiz Status &rarr;
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- =========================================================
+       VIEW 2: THE MOON (LEFT SIDEBAR SUB-PARTS + ACTIVE CHAPTER)
+       ========================================================= -->
+  <section id="page-moon" class="page-view">
+    <div class="volume-workspace">
+      <!-- Left Sub-Parts Sidebar for The Moon -->
+      <aside class="chapter-sidebar">
+        <span class="sidebar-vol-tag">Volume I &bull; 384,400 km</span>
+        <div class="sidebar-vol-title">The Moon</div>
+        <div class="sidebar-progress-line" id="moonProgressText">Progress: 1 / 5 Chapters Read</div>
+
+        <div class="chapter-side-list" id="moonSidebarList"></div>
+
+        <button class="nav-btn" style="width:100%; justify-content:center;" onclick="openPage('mars')">
+          Go to Volume II: Mars &rarr;
+        </button>
+      </aside>
+
+      <!-- Right Active Moon Chapter Content -->
+      <div id="moonChapterStage"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       VIEW 3: MARS (LEFT SIDEBAR SUB-PARTS + ACTIVE CHAPTER)
+       ========================================================= -->
+  <section id="page-mars" class="page-view">
+    <div class="volume-workspace">
+      <!-- Left Sub-Parts Sidebar for Mars -->
+      <aside class="chapter-sidebar">
+        <span class="sidebar-vol-tag" style="color:var(--accent-terracotta);">Volume II &bull; 225,000,000 km</span>
+        <div class="sidebar-vol-title">Mars</div>
+        <div class="sidebar-progress-line" id="marsProgressText">Progress: 1 / 7 Chapters Read</div>
+
+        <div class="chapter-side-list" id="marsSidebarList"></div>
+
+        <button class="nav-btn" style="width:100%; justify-content:center;" onclick="openPage('moon')">
+          &larr; Go to Volume I: The Moon
+        </button>
+      </aside>
+
+      <!-- Right Active Mars Chapter Content -->
+      <div id="marsChapterStage"></div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       VIEW 4: ARCHIVE ASSESSMENT QUIZ (LOCKED UNTIL BOTH COMPLETED)
+       ========================================================= -->
+  <section id="page-quiz" class="page-view">
+    <div class="quiz-container">
+      <!-- Locked Screen (Shown until both Moon & Mars are completed) -->
+      <div class="quiz-lock-card" id="quizLockedView">
+        <span class="portal-tag" style="background: rgba(200, 90, 90, 0.18); color: var(--accent-crimson); border: 1px solid var(--accent-crimson); margin: 0 auto 1rem;">
+          Assessment Locked
+        </span>
+        <h2 style="font-family: var(--font-display); font-size: 2rem; font-weight: 600; margin-bottom: 0.6rem;">
+          Complete Both Storybook Volumes First
+        </h2>
+        <p style="color: var(--text-parchment); max-width: 560px; margin: 0 auto;">
+          To unlock the 10-question Space Archive Quiz and Honour Roll, please read through all 5 chapters of <strong>The Moon</strong> and all 7 chapters of <strong>Mars</strong> using the chapter sidebars.
+        </p>
+
+        <div class="lock-checklist">
+          <div class="lock-status-box" id="lockBoxMoon">
+            <div style="font-family:var(--font-mono); font-size:0.72rem; text-transform:uppercase; color:var(--accent-lunar);">Volume I</div>
+            <div style="font-family:var(--font-display); font-size:1.25rem; font-weight:600; margin:0.2rem 0;">The Moon (5 Chapters)</div>
+            <div style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);" id="lockMoonStatusText">Status: 1 / 5 Read</div>
+            <button class="nav-btn" style="margin-top:0.85rem;" onclick="openPage('moon')">Open Lunar Volume &rarr;</button>
+          </div>
+
+          <div class="lock-status-box" id="lockBoxMars">
+            <div style="font-family:var(--font-mono); font-size:0.72rem; text-transform:uppercase; color:var(--accent-terracotta);">Volume II</div>
+            <div style="font-family:var(--font-display); font-size:1.25rem; font-weight:600; margin:0.2rem 0;">Mars (7 Chapters)</div>
+            <div style="font-family:var(--font-mono); font-size:0.8rem; color:var(--text-muted);" id="lockMarsStatusText">Status: 1 / 7 Read</div>
+            <button class="nav-btn" style="margin-top:0.85rem;" onclick="openPage('mars')">Open Martian Volume &rarr;</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unlocked Quiz Area -->
+      <div id="quizUnlockedView" style="display:none;">
+        <div class="storybook-header" style="background: var(--bg-elevated); border-color: var(--border-strong); margin-top: 0;">
+          <span class="portal-tag" style="background: rgba(92, 156, 120, 0.2); color: var(--accent-sage); border: 1px solid var(--accent-sage);">
+            Both Volumes Completed &bull; Assessment Unlocked
+          </span>
+          <h1 style="font-family: var(--font-display); font-size: clamp(1.9rem, 3.8vw, 2.75rem); font-weight: 600; margin-top: 0.4rem;">
+            Space Archive Assessment: The Moon &amp; Mars
+          </h1>
+          <p style="color: var(--text-parchment); max-width: 680px; margin: 0.4rem auto 0;">
+            Answer all 10 clues from the Lunar and Martian chapters to earn your Archival Rank and record your name on the Honour Roll.
+          </p>
+        </div>
+
+        <div class="quiz-grid">
+          <div class="quiz-box">
+            <div id="quizPlayArea">
+              <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                <span class="portal-tag" id="quizStepBadge" style="margin:0; background:rgba(201,162,94,0.15); color:var(--accent-champagne);">
+                  Clue 01 of 10
+                </span>
+                <span id="quizScoreLabel" style="font-family:var(--font-mono); font-weight:600; color:var(--accent-champagne); font-size:0.95rem;">
+                  Score: 0 / 10
+                </span>
+              </div>
+
+              <div class="quiz-progress-track">
+                <div class="quiz-progress-fill" id="quizProgressBar"></div>
+              </div>
+
+              <div class="quiz-question-text" id="quizQuestionText"></div>
+              <div id="quizOptionsBox"></div>
+
+              <div id="quizFeedbackText" style="min-height: 36px; margin-top: 0.85rem; font-weight: 600; font-size: 0.95rem;"></div>
+
+              <button class="quiz-action-btn" id="quizNextBtn" style="margin-top:1rem;" onclick="nextQuizClue()" disabled>
+                Next Clue &rarr;
+              </button>
+            </div>
+
+            <div id="quizResultsArea" style="display:none; text-align:center; padding: 1rem 0;">
+              <span class="portal-tag" style="background: rgba(92, 156, 120, 0.2); color: var(--accent-sage); margin: 0 auto 0.75rem;">
+                Assessment Complete
+              </span>
+              <h2 id="quizFinalRank" style="font-family: var(--font-display); font-size: 1.9rem; font-weight: 600; color: var(--text-alabaster);"></h2>
+              <div id="quizFinalScoreBig" style="font-family: var(--font-mono); font-size: 2.8rem; font-weight: 600; color: var(--accent-champagne); margin: 0.5rem 0;"></div>
+              <p id="quizFinalMessage" style="color: var(--text-parchment); max-width: 500px; margin: 0 auto 1.6rem;"></p>
+
+              <div style="background: rgba(6, 7, 10, 0.85); border: 1px solid var(--border-hairline); border-radius: 6px; padding: 1.35rem; text-align: left; margin-bottom: 1.5rem;">
+                <div style="font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--accent-champagne); margin-bottom: 0.6rem;">
+                  Record Your Name on the Honour Roll
+                </div>
+                <div style="display:flex; gap:0.65rem; flex-wrap:wrap;">
+                  <input type="text" id="playerNameInput" class="name-input" placeholder="Enter your Name (e.g. Sabari)" maxlength="22" />
+                  <button class="quiz-action-btn" id="saveLbBtn" onclick="savePlayerScore()">
+                    Record Score
+                  </button>
+                </div>
+                <div id="saveLbConfirm" style="display:none; color:var(--accent-sage); font-weight:600; font-size:0.88rem; margin-top:0.55rem;">
+                  Score recorded on the Honour Roll.
+                </div>
+              </div>
+
+              <button class="quiz-action-btn" onclick="restartSpaceQuiz()">
+                Restart Assessment
+              </button>
+            </div>
+          </div>
+
+          <div class="leaderboard-box">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <span style="font-family:var(--font-mono); font-size:0.72rem; font-weight:600; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent-champagne);">
+                  Archive Honour Roll
+                </span>
+                <h3 style="font-family:var(--font-display); font-size:1.45rem; font-weight:600;">Top Space Historians</h3>
+              </div>
+              <button class="nav-btn" style="font-size:0.7rem; padding:0.35rem 0.75rem;" onclick="resetSpaceLeaderboard()">
+                Reset
+              </button>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-top:0.25rem;">
+              Complete all 10 Moon &amp; Mars clues to log your rank.
+            </p>
+
+            <table class="lb-table">
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th>Historian</th>
+                  <th>Score</th>
+                  <th>Designation</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboardTableBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FULLSCREEN NASA PHOTOGRAPH LIGHTBOX MODAL -->
+  <div class="photo-lightbox" id="photoLightbox" onclick="if(event.target===this) closeLightbox()">
+    <button class="lightbox-close" onclick="closeLightbox()">&#10005;</button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="Enlarged NASA Photograph" />
+    <div class="lightbox-caption" id="lightboxCaption"></div>
+  </div>
+
+  <script>
+    /* AUTOMATIC HIGH-RES SVG FALLBACK GENERATOR (If any image URL is blocked or offline, renders a crisp technical plate!) */
+    function buildSvgFallback(title, subtitle, accentColor) {
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+        <rect width="800" height="450" fill="#080a10"/>
+        <g stroke="rgba(226,217,200,0.08)" stroke-width="1">
+          <line x1="0" y1="90" x2="800" y2="90"/><line x1="0" y1="180" x2="800" y2="180"/>
+          <line x1="0" y1="270" x2="800" y2="270"/><line x1="0" y1="360" x2="800" y2="360"/>
+          <line x1="160" y1="0" x2="160" y2="450"/><line x1="320" y1="0" x2="320" y2="450"/>
+          <line x1="480" y1="0" x2="480" y2="450"/><line x1="640" y1="0" x2="640" y2="450"/>
+        </g>
+        <circle cx="400" cy="195" r="78" fill="none" stroke="${accentColor}" stroke-width="2" stroke-dasharray="6 4"/>
+        <polygon points="365,225 400,145 435,225" fill="none" stroke="${accentColor}" stroke-width="2.5"/>
+        <line x1="340" y1="225" x2="460" y2="225" stroke="#c9a25e" stroke-width="3"/>
+        <text x="400" y="325" fill="#f4f1ea" font-family="Georgia, serif" font-size="24" font-weight="bold" text-anchor="middle">${title}</text>
+        <text x="400" y="360" fill="#c9a25e" font-family="monospace" font-size="14" letter-spacing="2" text-anchor="middle">${subtitle}</text>
+      </svg>`;
+      return 'data:image/svg+xml;utf8,' + encodeURIComponent(svg);
+    }
+
+    /* =========================================================================
+       VOLUME I: THE MOON — 5 CHAPTERS DATABASE (WITH VERIFIED IMAGES + POINT SUMMARIES)
+       ========================================================================= */
+    const moonChaptersDB = [
+      {
+        num: "01",
+        shortName: "Apollo Lunar Module",
+        era: "Chapter 01 • Apollo 11, 12, 14, 15, 16 & 17 (1969–1972)",
+        title: "Apollo Lunar Module — The Spacecraft Left Behind",
+        imgUrl: "https://upload.wikimedia.org/wikipedia/commons/9/98/Aldrin_Apollo_11_original.jpg",
+        fallbackTitle: "APOLLO LUNAR MODULE DESCENT STAGE",
+        fallbackSub: "SIX GOLDEN LAUNCHPADS ON THE MOON (1969–1972)",
+        caption: "NASA Archive AS11-40-5903: Buzz Aldrin beside the gold-foil-wrapped Lunar Module Eagle at Tranquility Base (July 20, 1969).",
+        speaker: "Voice of the Apollo 11 Lander ('Eagle')",
+        quote: "I carried Neil Armstrong and Buzz Aldrin safely down to the Moon with only 25 seconds of fuel left. When it was time for them to return home, my bottom half stayed behind in the dust to serve as their launchpad.",
+        paragraphs: [
+          "Have you ever wondered how astronauts blasted off from the Moon when there was no launchpad waiting for them? The secret is that they brought their own launchpad with them. NASA engineers built the <strong>Apollo Lunar Module</strong> in two separate pieces stacked on top of each other.",
+          "The bottom half was called the <strong>Descent Stage</strong>. Wrapped in shiny amber-gold blankets to protect it from boiling +120°C sunshine and freezing -170°C lunar nights, it had four strong landing legs and a rocket engine to lower the astronauts gently onto the Moon.",
+          "When the astronauts finished exploring and climbed back inside to go home, they did not take the whole spaceship with them. Lifting those heavy legs and empty fuel tanks would have wasted far too much rocket fuel. Instead, explosive bolts separated the two halves and <strong>only the top cabin (the Ascent Stage) lifted off</strong>, using the golden bottom half as its launchpad! Today, <strong>all six lower descent stages remain standing at the six Apollo landing sites</strong>."
+        ],
+        summaryPoints: [
+          "<strong>Two-Stage Design:</strong> Built with a lower Descent Stage for landing and an upper Ascent Stage for returning astronauts to lunar orbit.",
+          "<strong>Built-In Launchpad:</strong> Leaving the heavy lower stage behind saved thousands of kilograms of rocket fuel and acted as the launchpad for liftoff.",
+          "<strong>Six Monuments Still Standing:</strong> The descent stages of Apollo 11, 12, 14, 15, 16, and 17 still stand on the Moon today, wrapped in gold Kapton thermal foil.",
+          "<strong>Scientific Payoff:</strong> Weight savings allowed astronauts to bring back 382 kg (842 lbs) of Moon rocks, proving how the Moon was formed."
+        ],
+        funFacts: [
+          "<strong>Saved by a Felt-Tip Pen:</strong> Inside the Apollo 11 lander, Buzz Aldrin's backpack accidentally snapped off the switch needed to ignite the engine to go home. He used a felt-tip pen to push the circuit breaker back in!",
+          "<strong>No Seats Inside:</strong> Because the Moon only has one-sixth of Earth's gravity, the Lunar Module had no chairs. Astronauts stood up while flying it, held steady by cables."
+        ]
+      },
+      {
+        num: "02",
+        shortName: "Lunar Roving Vehicle",
+        era: "Chapter 02 • Apollo 15, 16 & 17 (1971–1972)",
+        title: "Lunar Roving Vehicle — The Electric Moon Car",
+        imgUrl: "https://nssdc.gsfc.nasa.gov/planetary/image/as15_88_11901.jpg",
+        fallbackTitle: "APOLLO LUNAR ROVING VEHICLE (LRV)",
+        fallbackSub: "THREE ELECTRIC MOON CARS PARKED ON THE MOON",
+        caption: "NASA Archive AS17-147-22526: Commander Eugene Cernan test-drives the electric Lunar Roving Vehicle ('Moon Buggy') at Taurus-Littrow (December 1972).",
+        speaker: "Voice of the Lunar Roving Vehicle",
+        quote: "I was folded up like a metal suitcase on the side of the spaceship. Once the astronauts unpacked me, we drove across craters and mountains—and at the end of the trip, my color television camera filmed them blasting off into space.",
+        paragraphs: [
+          "Walking in a pressurized spacesuit is exhausting work. On Apollo 11 and 12, astronauts could only walk a short distance from their lander, and on Apollo 14 they pulled a two-wheeled handcart nicknamed the 'lunar rickshaw.' For <strong>Apollo 15, 16, and 17</strong>, NASA gave the astronauts their own battery-powered electric car: the <strong>Lunar Roving Vehicle (LRV)</strong>, or 'Moon Buggy.'",
+          "How do you fit a car inside a crowded rocket? Engineers designed the Moon Buggy to fold up like origami inside a pie-shaped bay on the side of the lander! Once on the Moon, astronauts pulled two ribbons and the car unfolded itself onto the dust. Because regular rubber tires filled with air would freeze and crack on the Moon, the buggy's wheels were woven out of flexible <strong>zinc-coated steel piano wire</strong>.",
+          "Before flying home, astronauts parked all three Moon cars a short distance away from the lander so a controller in Houston could tilt the rover's color television camera upward by remote control and <strong>film the spaceship blasting off live for viewers on Earth</strong>."
+        ],
+        summaryPoints: [
+          "<strong>Three Electric Buggies:</strong> Driven on the Moon during Apollo 15 (1971), Apollo 16 (1972), and Apollo 17 (1972).",
+          "<strong>Woven Piano-Wire Tires:</strong> Used hollow mesh tires made of zinc-coated steel wire with titanium treads so they would never puncture or freeze.",
+          "<strong>Filmed the Liftoffs:</strong> All three rovers were parked ~100 meters away from the landers so their remotely controlled TV cameras could broadcast the astronauts' liftoff live.",
+          "<strong>Expanded Exploration:</strong> Allowed astronauts to drive up to 35.9 km (Apollo 17) and discover the 4-billion-year-old 'Genesis Rock' (Apollo 15)."
+        ],
+        funFacts: [
+          "<strong>Fixed with Duct Tape:</strong> On Apollo 17, Gene Cernan's hammer snagged and broke off the rover's rear fender. The astronauts taped four laminated Moon maps together with duct tape to build a replacement dust flap!",
+          "<strong>Driven with a Joystick:</strong> Because bulky spacesuit gloves could not grip a steering wheel, astronauts steered the Moon Buggy using a T-shaped hand controller between the seats."
+        ]
+      },
+      {
+        num: "03",
+        shortName: "ALSEP Laboratory",
+        era: "Chapter 03 • Deployed 1969–1972 • Transmitted Until 1977",
+        title: "ALSEP — The Scientific Laboratory Left on the Moon",
+        imgUrl: "https://web.archive.org/web/20230516235125im_/https://rps.nasa.gov/internal_resources/31/",
+        fallbackTitle: "ALSEP NUCLEAR SCIENCE STATION",
+        fallbackSub: "APOLLO LUNAR SURFACE EXPERIMENTS PACKAGE (1969–1977)",
+        caption: "Apollo 12 astronaut Alan Bean unloads the plutonium fuel core that powered the ALSEP, which was deployed on five of the U.S. manned missions to the Moon.",
+        speaker: "Voice of the ALSEP Station",
+        quote: "When the astronauts flew home, the Moon became completely quiet again. Yet I stayed awake. Powered by my warm nuclear battery, I pressed my ear to the ground for eight years and felt 12,000 moonquakes.",
+        paragraphs: [
+          "Astronauts could only stay on the Moon for a few days at a time. To study the Moon for years after the humans left, astronauts unpacked a robotic laboratory called <strong>ALSEP</strong> (standing for the <strong>Apollo Lunar Surface Experiments Package</strong>) and wired its sensors to a central radio transmitter.",
+          "Nighttime on the Moon lasts for <strong>two whole Earth weeks</strong>, and the temperature plunges to -170°C. Solar panels could not work in that long darkness, so astronauts powered each ALSEP station with a small, warm Plutonium-238 nuclear generator (SNAP-27 RTG).",
+          "For <strong>eight straight years</strong>—until NASA finally switched their radio transmitters off on <strong>September 30, 1977</strong>—these silent laboratories sent daily reports back to Earth, measuring solar wind particles, underground heat flow, and over <strong>12,000 moonquakes and meteorite impacts</strong>."
+        ],
+        summaryPoints: [
+          "<strong>Autonomous Lunar Laboratories:</strong> Deployed by astronauts on Apollo 12, 14, 15, 16, and 17 to study the Moon long after humans left.",
+          "<strong>Nuclear-Powered Survival:</strong> Used SNAP-27 Plutonium-238 generators (70 Watts) to stay awake through freezing 14-day-long lunar nights (-170°C).",
+          "<strong>Measured 12,000+ Moonquakes:</strong> Seismometers tracked moonquakes, meteorite impacts, solar wind, and internal heat flow until September 30, 1977.",
+          "<strong>Mapped the Moon's Interior:</strong> Proved the Moon has a 30–40 km crust, a deep rocky mantle, and a small core."
+        ],
+        funFacts: [
+          "<strong>'The Moon Rang Like a Bell':</strong> NASA intentionally crashed empty Saturn V rocket stages into the Moon so ALSEP could listen to the seismic echo—and the dry Moon vibrated for over an hour!",
+          "<strong>Carried Like a Barbell:</strong> In the Moon's one-sixth gravity, a 70-kg science station weighed less than 12 kg—so astronauts carried it out like a gym barbell."
+        ]
+      },
+      {
+        num: "04",
+        shortName: "Laser Retroreflectors",
+        era: "Chapter 04 • Placed in 1969 & 1971 • Active Tonight",
+        title: "Lunar Laser Retroreflectors — Mirrors Still Helping Science",
+        imgUrl: "https://archive.org/download/AS11-40-5952/AS11-40-5952.jpg",
+        fallbackTitle: "LUNAR LASER RANGING RETROREFLECTOR",
+        fallbackSub: "PASSIVE QUARTZ CORNER-CUBE MIRRORS (1969–PRESENT)",
+        caption: "NASA Archive AS11-40-5952: The Apollo 11 Laser Ranging Retroreflector deployed at Tranquility Base—still reflecting Earth lasers tonight!",
+        speaker: "Voice of the Apollo Retroreflectors",
+        quote: "I have no battery, no motor, and not a single wire—so I can never run out of power. Whenever scientists on Earth shine a laser beam at the Moon, my glass corners bounce the light straight back to them.",
+        paragraphs: [
+          "Almost every machine left on the Moon ran out of battery power decades ago. Yet there is one remarkable invention left behind by <strong>Apollo 11, 14, and 15</strong> astronauts that is <strong>still working tonight</strong>: the <strong>Lunar Laser Retroreflectors</strong>.",
+          "Each reflector looks like a small open suitcase filled with 100 to 300 special quartz glass mirrors called 'corner cubes.' If you shine a flashlight at a normal flat mirror at an angle, the light bounces away to the side. A corner-cube mirror has three angled sides that bounce light <strong>straight back to wherever it came from</strong>.",
+          "On clear nights, scientists on Earth aim telescopes at the Apollo landing sites and fire a pulse of laser light at the Moon. The light travels 384,400 kilometers, hits the astronauts' mirrors, and bounces back to Earth in just <strong>2.56 seconds</strong>."
+        ],
+        summaryPoints: [
+          "<strong>Zero Power Required:</strong> Placed on the Moon by Apollo 11, 14, and 15 astronauts; built from passive quartz corner-cube prisms that never need batteries.",
+          "<strong>How It Works:</strong> Earth observatories fire laser pulses at the mirrors and time the ~2.56-second round-trip reflection at the speed of light.",
+          "<strong>3.8 cm Per Year Drift:</strong> Proved with millimeter accuracy that the Moon is spiraling away from Earth by about 3.8 centimeters every year.",
+          "<strong>Longest-Running Experiment:</strong> Remains the only Apollo experiment on the Moon still producing active scientific data in 2026."
+        ],
+        funFacts: [
+          "<strong>Catching a Single Photon:</strong> Out of 100 quadrillion light particles (photons) fired in a laser pulse from Earth, often only <strong>one single photon</strong> makes it back into the telescope!",
+          "<strong>Fingernail Speed:</strong> The Moon's 3.8 cm per year drift away from Earth is almost the exact same speed at which human fingernails grow."
+        ]
+      },
+      {
+        num: "05",
+        shortName: "Forgotten Objects",
+        era: "Chapter 05 • Personal Keepsakes in the Lunar Dust",
+        title: "The Forgotten Objects — What Else Did Astronauts Leave?",
+        imgUrl: "https://www.rmg.co.uk/sites/default/files/styles/max_2600x2600/public/Charles%20Duke.jpg.webp?itok=W23SvNXl",
+        fallbackTitle: "PERSONAL ARTIFACTS ON THE MOON",
+        fallbackSub: "FLAGS, OLIVE BRANCH, FAMILY PHOTO & GOLF BALLS",
+        caption: "NASA Archive AS16-117-18841: Astronaut Charlie Duke's plastic-wrapped family portrait resting in the lunar dust beside his bootprint (Apollo 16, April 1972).",
+        speaker: "Voice of the Lunar Keepsakes",
+        quote: "We are not machines of steel and wire. We are family photographs, a golden olive branch of peace, memorials to fallen friends, and two golf balls hit across the gray craters—reminding the cosmos that human hearts visited this world.",
+        paragraphs: [
+          "Beyond heavy spacecraft stages, rovers, and nuclear laboratories, the twelve Apollo Moonwalkers left behind a touching collection of <strong>personal, symbolic, and memorial items</strong> in the gray lunar dust.",
+          "On <strong>Apollo 11</strong>, Neil Armstrong and Buzz Aldrin placed a miniature, solid-gold <strong>olive branch</strong> on the soil as a symbol of peace from all mankind. On <strong>Apollo 14</strong>, Commander Alan Shepard attached a custom 6-iron club head to a rock-sampling handle and hit <strong>two golf balls</strong> in the Moon's one-sixth gravity!",
+          "On <strong>Apollo 15</strong>, astronauts placed the <em>Fallen Astronaut</em> aluminum sculpture and plaque honoring 14 American astronauts and Soviet cosmonauts who gave their lives for space exploration, and dropped a <strong>falcon feather and hammer</strong> to prove Galileo's law of gravity. And on <strong>Apollo 16</strong>, Charlie Duke left a plastic-wrapped <strong>family photograph</strong> of himself, his wife Dorothy, and their two young sons on the Descartes Highlands."
+        ],
+        isKeepsakeChapter: true,
+        summaryPoints: [
+          "<strong>Six American Flags:</strong> Planted at all six Apollo landing sites (orbital photos show five still standing, bleached white by solar UV radiation).",
+          "<strong>Symbols of Peace & Memory:</strong> Includes Apollo 11's solid-gold olive branch and Apollo 15's Fallen Astronaut memorial plaque.",
+          "<strong>Personal Moments:</strong> Includes Charlie Duke's family portrait (Apollo 16) and two golf balls hit by Alan Shepard (Apollo 14).",
+          "<strong>Weight-Saving Jettisons:</strong> Astronauts also left behind 12 pairs of lunar overshoes, Hasselblad camera bodies, and tools so they could carry heavier Moon rocks home."
+        ],
+        funFacts: [
+          "<strong>Signed on the Back:</strong> On the back of his family photo on the Moon, Charlie Duke wrote: 'This is the family of Astronaut Duke from Planet Earth, who landed on the Moon, April 1972.'",
+          "<strong>How Far Did the Golf Ball Go?</strong> High-resolution image scans in 2021 revealed Alan Shepard's second golf ball traveled roughly 40 yards across the cratered soil—hit one-handed inside a stiff spacesuit!"
+        ]
+      }
+    ];
+
+    /* =========================================================================
+       VOLUME II: MARS — 7 CHAPTERS DATABASE (WITH VERIFIED IMAGES + POINT SUMMARIES)
+       ========================================================================= */
+    const marsChaptersDB = [
+      {
+        num: "01",
+        shortName: "Mariner 9 (1971)",
+        era: "Chapter 01 • Entered Mars Orbit: November 14, 1971",
+        title: "Mariner 9 (1971) — The First Spacecraft to Orbit Another Planet",
+        imgUrl: "https://images-assets.nasa.gov/image/PIA02979/PIA02979~orig.jpg",
+        fallbackTitle: "MARINER 9 ORBITER (1971)",
+        fallbackSub: "FIRST SPACECRAFT TO ORBIT ANOTHER PLANET",
+        caption: "NASA Archive PIA02979: The colossal Valles Marineris canyon system—discovered by and named in honor of Mariner 9 after the 1971 global dust storm cleared.",
+        speaker: "Voice of Mariner 9 Orbiter",
+        quote: "When I arrived at Mars in 1971, a planet-wide dust storm hid the entire world. I waited patiently in orbit until the sky cleared—and then I showed Earth the largest volcanoes and canyons in the solar system.",
+        paragraphs: [
+          "Before humanity could ever land a robot on Mars, we needed a map so we would not crash. On <strong>November 14, 1971</strong>, NASA's <strong>Mariner 9</strong> fired its braking engine and became the <strong>very first spacecraft in history to orbit another planet</strong>.",
+          "At first, scientists were disappointed: a massive dust storm covered the entire planet like a thick orange shroud, hiding the ground below. Only four mysterious dark spots poked through the clouds!",
+          "When the air finally cleared two months later, Mariner 9 transmitted <strong>7,329 photographs</strong> covering 85% of Mars—solving the mystery: those four dark spots were the peaks of giant volcanoes, including <strong>Olympus Mons</strong>! Mariner 9 also discovered a 4,000-km-long canyon system (named <em>Valles Marineris</em> in Mariner 9's honor) and winding dry riverbeds. When its attitude gas ran out on October 27, 1972, Mariner 9 was switched off and left in a high Mars orbit."
+        ],
+        summaryPoints: [
+          "<strong>First Planetary Orbiter:</strong> Entered Mars orbit on November 14, 1971—the first spacecraft ever to orbit another planet.",
+          "<strong>Waited Out a Global Storm:</strong> Delayed its mapping for two months until a planet-wide dust storm settled, then returned 7,329 photos.",
+          "<strong>Discovered Giant Landmarks:</strong> Revealed Olympus Mons (3x taller than Everest) and the 4,000-km Valles Marineris canyon system.",
+          "<strong>Clues of Ancient Water:</strong> Photographed dry river channels and deltas, proving liquid water once flowed across Mars."
+        ],
+        funFacts: [
+          "<strong>Three Times Taller Than Everest:</strong> Olympus Mons, discovered by Mariner 9, stands 22 kilometers (13.6 miles) high!",
+          "<strong>Mars' Two Moons:</strong> While waiting for the dust storm to clear, Mariner 9 took humanity's first close-up photos of Mars' potato-shaped moons, Phobos and Deimos."
+        ]
+      },
+      {
+        num: "02",
+        shortName: "Viking 1 & 2 (1976)",
+        era: "Chapter 02 • Landed on Mars: July 20 & September 3, 1976",
+        title: "Viking 1 & 2 Landers (1976) — Our First Eyes on the Red Soil",
+        imgUrl: "https://images-assets.nasa.gov/image/PIA00381/PIA00381~orig.jpg",
+        fallbackTitle: "VIKING 1 & 2 LANDERS (1976)",
+        fallbackSub: "FIRST SUCCESSFUL LANDERS ON THE SURFACE OF MARS",
+        caption: "NASA Archive PIA00381: The very first photograph ever taken from the surface of Mars—showing Viking 1's footpad resting on Chryse Planitia (July 20, 1976).",
+        speaker: "Voice of Viking 1 Lander",
+        quote: "Seconds after my three legs touched down on July 20, 1976, I looked down at my own footpad and snapped the very first picture ever taken from the ground on Mars. For six years I scooped up red soil and watched the Martian seasons change.",
+        paragraphs: [
+          "Using the maps made by Mariner 9, NASA sent twin three-legged robots called <strong>Viking 1 and Viking 2</strong> to touch the Martian soil in <strong>1976</strong>. Slowed down by heat shields, parachutes, and landing rockets, they became humanity's first successful landers on Mars!",
+          "Before Viking landed, nobody knew what Mars looked like from the ground. Viking 1 and 2 sent back sweeping color panoramas of rust-red boulders and pink skies. Each lander had a mechanical scoop arm that dug trenches in the soil and dropped dirt into miniature science ovens to test for signs of microscopic life.",
+          "Even though they were built to last for 90 days, Plutonium-238 nuclear batteries kept <strong>Viking 2 working for nearly four years</strong> and <strong>Viking 1 working for over six years</strong> (until a software update from Earth in November 1982 accidentally overwrote Viking 1's antenna-pointing memory). Both landers still stand quietly on the Martian plains today."
+        ],
+        summaryPoints: [
+          "<strong>First Successful Mars Landers:</strong> Viking 1 landed in Chryse Planitia (July 20, 1976) and Viking 2 landed in Utopia Planitia (Sept 3, 1976).",
+          "<strong>First Surface Photographs & Soil Tests:</strong> Captured humanity's first ground-level views of Mars and scooped soil to test for microbial life.",
+          "<strong>Six Years of Weather Data:</strong> Powered by nuclear RTGs, Viking 1 operated for 2,245 sols (over 6 years) until a software command error in Nov 1982.",
+          "<strong>Matched Martian Meteorites:</strong> Measured the exact gas mix of Mars' atmosphere—proving rare meteorites found in Antarctica came from Mars."
+        ],
+        funFacts: [
+          "<strong>Baked Inside Giant Ovens:</strong> So we wouldn't bring Earth germs to Mars, NASA baked the entire Viking landers at 111°C for 40 hours before launch!",
+          "<strong>25 Seconds After Touchdown:</strong> Viking 1 began scanning the very first picture of its footpad just 25 seconds after its legs touched Mars."
+        ]
+      },
+      {
+        num: "03",
+        shortName: "Sojourner Rover (1997)",
+        era: "Chapter 03 • Landed on Mars: July 4, 1997",
+        title: "Sojourner Rover (1997) — Six Little Wheels on Another World",
+        imgUrl: "https://images-assets.nasa.gov/image/PIA01122/PIA01122~orig.jpg",
+        fallbackTitle: "SOJOURNER ROVER (1997)",
+        fallbackSub: "FIRST WHEELED ROVER ON MARS (MARS PATHFINDER)",
+        caption: "NASA Archive PIA01122: The microwave-sized Sojourner rover inspects 'Yogi' rock in Ares Vallis (July 1997), photographed by the Mars Pathfinder lander.",
+        speaker: "Voice of Sojourner Rover",
+        quote: "I was no bigger than a microwave oven. After bouncing onto Mars wrapped inside 24 giant airbags, I rolled down my mother ship's ramp and became the very first wheeled rover to drive on Mars.",
+        paragraphs: [
+          "The Viking landers were remarkable, but their feet were fixed in one place—they could never see what waited behind the next hill. On <strong>July 4, 1997</strong>, NASA landed the <strong>Mars Pathfinder</strong> station carrying a tiny, solar-powered robot on wheels named <strong>Sojourner</strong>.",
+          "Instead of heavy landing legs, Pathfinder and Sojourner dropped onto Mars wrapped inside <strong>24 giant inflatable airbags</strong>! They bounced 15 times across the rocks before coming to rest and unfolding like a flower.",
+          "Sojourner was only designed to last for <strong>7 days</strong>, yet it drove around for <strong>83 days</strong>, inspecting rocks nicknamed <em>'Barnacle Bill'</em>, <em>'Scooby-Doo'</em>, and <em>'Yogi'</em>. In September 1997, freezing Martian nights (-80°C) caused the Pathfinder base station's battery to fail. Because Sojourner was programmed to return to its mother ship if it lost radio contact, the loyal little rover likely spent its final days driving in circles around the silent lander."
+        ],
+        summaryPoints: [
+          "<strong>First Mars Rover:</strong> Landed on July 4, 1997 inside the Mars Pathfinder lander in the ancient flood plain of Ares Vallis.",
+          "<strong>Airbags & Rocker-Bogie Wheels:</strong> Proved that 24 bouncing airbags and a 6-wheel Rocker-Bogie suspension could safely land and drive on Mars.",
+          "<strong>Outlived Warranty by 12x:</strong> Designed for 7 sols, little 11.5-kg Sojourner operated for 83 sols until the Pathfinder base station battery froze.",
+          "<strong>Evidence of Ancient Floods:</strong> Discovered rounded conglomerate pebbles shaped by ancient rushing floodwaters."
+        ],
+        funFacts: [
+          "<strong>Named by a 12-Year-Old Student:</strong> Valerie Ambroise won a NASA essay contest to name the rover Sojourner ('traveler') after abolitionist hero Sojourner Truth.",
+          "<strong>Insulated with 'Frozen Smoke':</strong> Engineers insulated Sojourner's electronics box with Silica Aerogel—a solid material that is 99.8% air!"
+        ]
+      },
+      {
+        num: "04",
+        shortName: "Spirit & Opportunity (2004)",
+        era: "Chapter 04 • Landed on Mars: January 4 & January 25, 2004",
+        title: "Spirit & Opportunity (2004) — The 90-Day Twins That Explored for Years",
+        imgUrl: "https://images-assets.nasa.gov/image/PIA07269/PIA07269~orig.jpg",
+        fallbackTitle: "SPIRIT & OPPORTUNITY ROVERS (2004)",
+        fallbackSub: "MARS EXPLORATION ROVERS (MER-A & MER-B)",
+        caption: "NASA Archive PIA07269: Opportunity drove across Meridiani Planum to photograph the broken wreckage of its own discarded Heat Shield (December 2004).",
+        speaker: "Voice of Spirit & Opportunity",
+        quote: "We were only given a 90-day warranty before red dust covered our solar panels. Yet passing Martian wind gusts kept sweeping our panels clean. We explored for years and proved that ancient Mars had real liquid water.",
+        paragraphs: [
+          "In January 2004, NASA bounced two golf-cart-sized twin rovers—<strong>Spirit</strong> and <strong>Opportunity</strong>—onto opposite sides of Mars. Engineers expected red dust to coat their solar panels and end their missions in just <strong>90 days</strong>. Instead, passing Martian whirlwinds ('dust devils') acted like natural brooms, sweeping their solar panels clean again and again!",
+          "When <strong>Spirit's</strong> front wheel broke after two years, the rover did not quit—it simply drove <em>backward</em> for four more years, dragging the broken wheel behind it. That dragging wheel accidentally scraped away the top dirt to reveal bright white <strong>silica</strong>—proving Spirit was parked over an ancient volcanic hot spring! Spirit worked for over 6 years until it became trapped in soft sand and froze during the winter of 2010.",
+          "Meanwhile, <strong>Opportunity</strong> found tiny round mineral spheres nicknamed <strong>'blueberries'</strong> that form in liquid water—and even drove up to inspect its own crashed heat shield! Opportunity drove an off-world record <strong>45.16 kilometers over 14 and a half years</strong> until a planet-wide dust storm in <strong>June 2018</strong> turned day into pitch-black night, putting Opportunity to sleep."
+        ],
+        summaryPoints: [
+          "<strong>Twin Robotic Geologists:</strong> Landed in Jan 2004 for a 90-sol mission; Spirit lasted over 6 years (2,208 sols) and Opportunity lasted 14.5 years (5,111 sols).",
+          "<strong>Spirit's Hot Spring Discovery:</strong> Dragging its broken wheel uncovered 90%-pure opaline silica in Gusev Crater—proof of ancient volcanic hot springs.",
+          "<strong>Opportunity's Water 'Blueberries':</strong> Discovered hematite spheres and gypsum veins in Meridiani Planum, proving liquid water once soaked Mars.",
+          "<strong>45.16-km Driving Record:</strong> Opportunity set the off-Earth driving record before a global dust storm in June 2018 blocked sunlight to its solar panels."
+        ],
+        funFacts: [
+          "<strong>First Meteorite on Another Planet:</strong> Right beside its broken heat shield (in the photo above), Opportunity discovered 'Heat Shield Rock'—the first meteorite ever found on another world!",
+          "<strong>Cosmic Hole-in-One:</strong> Opportunity's airbags rolled straight into Eagle Crater on landing day, parking right in front of exposed ancient bedrock."
+        ]
+      },
+      {
+        num: "05",
+        shortName: "Phoenix Lander (2008)",
+        era: "Chapter 05 • Landed on Mars: May 25, 2008",
+        title: "Phoenix Lander (2008) — Digging Up Real Ice in the Martian Arctic",
+        imgUrl: "https://images-assets.nasa.gov/image/PIA10958/PIA10958~orig.jpg",
+        fallbackTitle: "PHOENIX MARS LANDER (2008)",
+        fallbackSub: "SUBSURFACE WATER ICE IN THE MARTIAN ARCTIC",
+        caption: "NASA Archive PIA10958: Phoenix's robotic scoop uncovered bright white subsurface water ice inside the 'Dodo-Goldilocks' trench in June 2008.",
+        speaker: "Voice of Phoenix Lander",
+        quote: "The rovers found rocks from ancient water—so I flew to the freezing North Pole of Mars to touch real water ice today. Just two inches under the red dirt, my shovel hit a sheet of bright white ice.",
+        paragraphs: [
+          "After Spirit and Opportunity proved Mars had water billions of years ago, scientists asked: <em>Where did all that water go? Is it still frozen underground near the poles?</em> To find out, NASA landed the <strong>Phoenix Lander</strong> in the northern Arctic plains of Mars in <strong>May 25, 2008</strong>.",
+          "Phoenix reached out with its robotic shovel arm and scraped away five centimeters of red dirt in a trench nicknamed <em>'Dodo-Goldilocks.'</em> Underneath, its camera saw something gleaming and white. Over the next four days, small crumbs of the white material vaporized in the sunlight, and Phoenix's science ovens confirmed it was <strong>pure frozen water ice</strong>!",
+          "Phoenix even aimed a green laser beam up at the sky and watched <strong>snowflakes falling from Martian clouds</strong>! After working for five months (157 sols), the dark, freezing Arctic winter arrived (-150°C), burying Phoenix's solar panels under heavy carbon-dioxide dry-ice frost in November 2008."
+        ],
+        summaryPoints: [
+          "<strong>Martian Arctic Explorer:</strong> Landed on May 25, 2008 in Vastitas Borealis (68° N latitude) using thruster rockets.",
+          "<strong>Touched Subsurface Water Ice:</strong> Dug trenches 5 cm deep to uncover a hard sheet of pure frozen water ice beneath the topsoil.",
+          "<strong>Detected Martian Snow:</strong> Used its upward-pointing lidar laser beam to observe water-ice snow crystals falling from Martian clouds.",
+          "<strong>Silenced by Polar Winter:</strong> Operated for 157 sols until Nov 2, 2008, when polar darkness and heavy CO2 dry-ice frost encased its solar wings."
+        ],
+        funFacts: [
+          "<strong>Built from Spare Parts:</strong> Phoenix was named after the mythical bird rising from the ashes because NASA built it using spare parts from a canceled 2001 lander!",
+          "<strong>Garden-Friendly Soil:</strong> Phoenix's wet chemistry lab found the soil was mildly alkaline (pH 7.7)—suitable for growing asparagus in a greenhouse!"
+        ]
+      },
+      {
+        num: "06",
+        shortName: "InSight Lander (2018)",
+        era: "Chapter 06 • Landed Nov 26, 2018 • Operated Until Dec 15, 2022",
+        title: "InSight Lander (2018) — Listening to the Heartbeat of Mars",
+        imgUrl: "https://images-assets.nasa.gov/image/PIA25287/PIA25287~orig.jpg",
+        fallbackTitle: "INSIGHT MARS LANDER (2018–2022)",
+        fallbackSub: "SEISMOMETER LISTENING TO 1,319 MARSQUAKES",
+        caption: "NASA Archive PIA25287: InSight's final selfie on Elysium Planitia (2022), showing how red Martian dust blanketed its round solar panels over four years.",
+        speaker: "Voice of InSight Lander",
+        quote: "Think of me as a doctor for an entire planet. I used my robotic arm to place a stethoscope on the ground and felt over 1,300 marsquakes rumbling deep inside Mars—even as red dust slowly covered my solar wings.",
+        paragraphs: [
+          "By 2018, rovers had explored the surface of Mars, and orbiters had photographed it from the sky. Yet nobody knew what Mars looked like <strong>deep inside</strong>! So NASA sent the <strong>InSight Lander</strong> to a quiet flat plain called Elysium Planitia.",
+          "Using a crane-like robotic arm, InSight picked up a super-sensitive earthquake detector (a seismometer called SEIS) from its deck and placed it directly onto the Martian ground, covering it with a white dome so the wind would not shake it.",
+          "For <strong>four years (1,440 sols)</strong>, InSight sat completely still and listened. It felt <strong>1,319 'marsquakes'</strong> and meteoroids crashing into Mars! Over four years, red dust slowly piled up on its round solar panels like a blanket. In <strong>December 2022</strong>, when its battery finally ran out of power, InSight sent home one last photograph and fell silent."
+        ],
+        summaryPoints: [
+          "<strong>Planetary Geophysicist:</strong> Landed on Nov 26, 2018 on Elysium Planitia to study Mars' deep interior structure.",
+          "<strong>Detected 1,319 Marsquakes:</strong> Placed a dome-shielded seismometer directly on the ground, recording quakes up to magnitude 4.7.",
+          "<strong>Revealed Mars' Liquid Core:</strong> Seismic waves proved Mars has a large liquid iron-alloy core (~1,830 km radius) and a 30–72 km crust.",
+          "<strong>Dusty Farewell:</strong> Operated for 4 years until thick Martian dust coated its circular solar arrays, ending contact on Dec 15, 2022."
+        ],
+        funFacts: [
+          "<strong>Cleaning Panels with Sand:</strong> Engineers commanded InSight's scoop arm to trickle coarse sand into the wind—and the bouncing sand grains actually knocked fine dust off the solar panels!",
+          "<strong>Atomic Precision:</strong> InSight's seismometer could detect ground vibrations smaller than the width of a single hydrogen atom."
+        ]
+      },
+      {
+        num: "07",
+        shortName: "Ingenuity Helicopter (2021)",
+        era: "Chapter 07 • First Flight April 19, 2021 • Final Flight Jan 18, 2024",
+        title: "Ingenuity Helicopter (2021) — 72 Flights in Thin Martian Air",
+        imgUrl: "https://images-assets.nasa.gov/image/PIA24647/PIA24647~orig.jpg",
+        fallbackTitle: "INGENUITY MARS HELICOPTER (2021–2024)",
+        fallbackSub: "72 FLIGHTS ACROSS JEZERO CRATER, MARS",
+        caption: "NASA Archive PIA24647: The 1.8-kg Ingenuity Mars Helicopter ('Ginny') standing on the floor of Jezero Crater before liftoff.",
+        speaker: "Voice of Ingenuity ('Ginny')",
+        quote: "I weigh no more than a box of tissues and two cans of soup. Nobody was certain if a helicopter could fly in Mars' super-thin air. I was built for 5 test flights—yet I flew 72 times across Mars.",
+        paragraphs: [
+          "Hitching a ride to Mars tucked under the belly of the Perseverance rover in <strong>2021</strong> was a tiny experimental passenger: the <strong>Ingenuity Mars Helicopter</strong>, nicknamed 'Ginny.' Taped underneath its solar panel was a real postage-stamp piece of cloth from the Wright Brothers' famous 1903 airplane!",
+          "Flying on Mars is extraordinarily difficult because the air is <strong>99% thinner than Earth's air</strong>. To lift its 1.8-kilogram body off the ground, Ingenuity's two carbon-fiber propellers had to spin five times faster than a normal helicopter (2,400 rotations every minute).",
+          "Engineers only designed Ingenuity to fly <strong>5 times</strong> over 30 days. Instead, it operated for nearly three years and completed <strong>72 flights</strong>—scouting ahead over cliffs and boulders for the Perseverance rover, and even flying over to photograph the crashed parachute that helped them land! On <strong>January 18, 2024</strong>, during its 72nd landing in smooth sand dunes, the tip of its rotor blade snapped."
+        ],
+        summaryPoints: [
+          "<strong>First Aircraft on Another World:</strong> Achieved the first powered, controlled flight on another planet on April 19, 2021.",
+          "<strong>2,400 RPM Carbon-Fiber Blades:</strong> Spun counter-rotating 1.2-meter blades rapidly to generate lift in Mars' 1%-density atmosphere.",
+          "<strong>72 Flights Completed:</strong> Built for 5 flights, Ingenuity flew 72 times (17 km total), scouting river deltas and photographing Perseverance's crashed parachute.",
+          "<strong>Still Waking Up Daily:</strong> Grounded in Valinor Hills after rotor damage on Jan 18, 2024, Ingenuity still wakes on solar power each morning to log weather data."
+        ],
+        funFacts: [
+          "<strong>Smartphone Brain:</strong> Ingenuity flew using a fast smartphone processor (Snapdragon 801) to track surface rocks 30 times per second!",
+          "<strong>Resting in 'Valinor Hills':</strong> Mission engineers nicknamed Ingenuity's final resting spot Valinor Hills after the Undying Lands in The Lord of the Rings."
+        ]
+      }
+    ];
+
+    /* 10 ARCHIVE QUIZ QUESTIONS */
+    const spaceQuizDB = [
+      {
+        q: "01. Why did the Apollo astronauts leave the golden bottom half (Descent Stage) of their Lunar Module on the Moon?",
+        options: [
+          "It served as their launchpad and saved precious rocket fuel for the return journey",
+          "They forgot where they parked it",
+          "It was bolted permanently to lunar bedrock",
+          "It was designed to melt in sunlight"
+        ],
+        answer: 0,
+        explain: "Correct. Leaving the heavy lower stage behind saved fuel and provided a built-in launchpad for the Ascent Stage."
+      },
+      {
+        q: "02. Why did astronauts park the three electric Lunar Roving Vehicles a short distance away from the lander before liftoff?",
+        options: [
+          "To race them on a future mission",
+          "So the rover's television camera could film the astronauts blasting off live for Earth",
+          "To shelter them inside a crater shadow",
+          "To recharge them using wind turbines"
+        ],
+        answer: 1,
+        explain: "Correct. Mission Control tilted the Moon Buggy's camera upward to broadcast the liftoff live."
+      },
+      {
+        q: "03. Which Apollo invention left on the Moon requires zero electricity and still bounces laser pulses back to Earth tonight?",
+        options: [
+          "The Lunar Roving Vehicle",
+          "The ALSEP Seismometer",
+          "The Lunar Laser Retroreflector (quartz corner-cube mirrors)",
+          "Alan Shepard's 6-iron club"
+        ],
+        answer: 2,
+        explain: "Correct. The passive quartz corner-cube mirrors still reflect laser pulses—proving the Moon drifts away by 3.8 cm per year."
+      },
+      {
+        q: "04. What did the nuclear-powered ALSEP laboratories discover by listening to the Moon for eight years until 1977?",
+        options: [
+          "Underground rivers of liquid water",
+          "Over 12,000 moonquakes and meteorite impacts",
+          "Active volcanic geysers",
+          "Dense carbon-dioxide clouds"
+        ],
+        answer: 1,
+        explain: "Correct. ALSEP recorded over 12,000 moonquakes and revealed the Moon's crust, mantle, and core."
+      },
+      {
+        q: "05. Which of these personal and symbolic items did Apollo astronauts leave behind in the lunar dust?",
+        options: [
+          "Two golf balls, a solid-gold olive branch, and Charlie Duke's family photograph",
+          "A pocket watch and a compass",
+          "A marble bust of Galileo",
+          "A pair of binoculars"
+        ],
+        answer: 0,
+        explain: "Correct. Alan Shepard hit two golf balls on Apollo 14, Apollo 11 left a gold olive branch, and Charlie Duke left his family photo on Apollo 16."
+      },
+      {
+        q: "06. In 1971, which spacecraft waited out a global dust storm to become the first spacecraft to orbit Mars—discovering Olympus Mons and Valles Marineris?",
+        options: [
+          "Voyager 1",
+          "Mariner 9",
+          "Sojourner",
+          "Pathfinder"
+        ],
+        answer: 1,
+        explain: "Correct. Mariner 9 became the first spacecraft to orbit another planet in November 1971."
+      },
+      {
+        q: "07. In 1976, which twin three-legged robots became the first spacecraft to land safely on Mars and transmit the first surface photographs?",
+        options: [
+          "Spirit and Opportunity",
+          "Viking 1 and Viking 2 Landers",
+          "Phoenix and InSight",
+          "Eagle and Challenger"
+        ],
+        answer: 1,
+        explain: "Correct. Viking 1 and 2 touched down in 1976 and operated on the Martian plains for up to six years."
+      },
+      {
+        q: "08. Barely the size of a microwave oven, which 1997 mission bounced onto Mars inside 24 airbags to become the first wheeled rover on the Red Planet?",
+        options: [
+          "Sojourner Rover",
+          "Curiosity Rover",
+          "Lunar Roving Vehicle",
+          "Mariner 9"
+        ],
+        answer: 0,
+        explain: "Correct. Sojourner rolled down the Mars Pathfinder ramp on July 4, 1997."
+      },
+      {
+        q: "09. Which 2008 lander dug trenches in the Martian Arctic to uncover bright white water ice—while the 2018 InSight lander recorded 1,319 marsquakes?",
+        options: [
+          "Viking 1",
+          "Phoenix Lander",
+          "Apollo 12",
+          "Surveyor 3"
+        ],
+        answer: 1,
+        explain: "Correct. Phoenix uncovered subsurface water ice in 2008, and InSight measured marsquakes from 2018 to 2022."
+      },
+      {
+        q: "10. Built for only 5 flights, which rotorcraft spun its blades at 2,400 RPM to fly 72 times across Mars—and still wakes up daily in Valinor Hills to log the weather?",
+        options: [
+          "Opportunity Rover",
+          "Ingenuity Mars Helicopter ('Ginny')",
+          "Mars Pathfinder",
+          "ALSEP"
+        ],
+        answer: 1,
+        explain: "Correct. Ingenuity completed 72 flights on Mars and continues to log daily weather data when sunlight hits its solar panel."
+      }
+    ];
+
+    const defaultQuizLeaderboard = [
+      { name: "Commander Armstrong", score: 10, total: 10, title: "Chief Archival Historian" },
+      { name: "Oppy_5111", score: 9, total: 10, title: "Senior Planetary Curator" },
+      { name: "Ginny_Flight72", score: 8, total: 10, title: "Mission Specialist" }
+    ];
+
+    /* READING PROGRESS & COMPLETION STATE */
+    let activeMoonIdx = 0;
+    let activeMarsIdx = 0;
+    let moonReadSet = new Set([0]);
+    let marsReadSet = new Set([0]);
+    let moonVolumeDone = false;
+    let marsVolumeDone = false;
+
+    let currentClueIdx = 0;
+    let currentQuizScore = 0;
+    let scoreAlreadySaved = false;
+
+    function openPage(pageKey) {
+      document.querySelectorAll('.page-view').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.remove('active', 'mars-active', 'quiz-active');
+      });
+
+      document.getElementById('page-' + pageKey).classList.add('active');
+      const activeBtn = document.getElementById('nav-' + pageKey);
+      if (activeBtn) {
+        if (pageKey === 'mars') activeBtn.classList.add('mars-active');
+        else if (pageKey === 'quiz') activeBtn.classList.add('quiz-active');
+        else activeBtn.classList.add('active');
+      }
+
+      const bg = document.getElementById('bgLayer');
+      bg.className = 'cosmos-backdrop bg-' + pageKey;
+
+      if (pageKey === 'moon') renderMoonWorkspace();
+      if (pageKey === 'mars') renderMarsWorkspace();
+      if (pageKey === 'quiz') updateQuizLockView();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function scrollToPortals() {
+      const target = document.getElementById('destinations-anchor');
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* RENDER MOON SIDEBAR & ACTIVE CHAPTER */
+    function selectMoonChapter(idx) {
+      activeMoonIdx = idx;
+      moonReadSet.add(idx);
+      if (moonReadSet.size === moonChaptersDB.length) {
+        moonVolumeDone = true;
+      }
+      renderMoonWorkspace();
+      updateCompletionBadges();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function markMoonCompleteAndGoMars() {
+      moonChaptersDB.forEach((_, i) => moonReadSet.add(i));
+      moonVolumeDone = true;
+      updateCompletionBadges();
+      if (marsVolumeDone) {
+        openPage('quiz');
+      } else {
+        openPage('mars');
+      }
+    }
+
+    function renderMoonWorkspace() {
+      document.getElementById('moonProgressText').textContent =
+        `Progress: ${moonReadSet.size} / ${moonChaptersDB.length} Chapters Read` + (moonVolumeDone ? " [Completed]" : "");
+
+      const listEl = document.getElementById('moonSidebarList');
+      listEl.innerHTML = moonChaptersDB.map((ch, idx) => {
+        const isAct = idx === activeMoonIdx ? 'active-moon-ch' : '';
+        const isRead = moonReadSet.has(idx);
+        return `
+          <button class="chapter-side-btn ${isAct}" onclick="selectMoonChapter(${idx})">
+            <div class="ch-btn-left">
+              <span class="ch-btn-num">Part ${ch.num}</span>
+              <span class="ch-btn-name">${ch.shortName}</span>
+            </div>
+            <span class="ch-check-indicator ${isRead ? 'read' : ''}">${isRead ? 'Read' : 'Pending'}</span>
+          </button>
+        `;
+      }).join('');
+
+      const ch = moonChaptersDB[activeMoonIdx];
+      const fallbackDataUri = buildSvgFallback(ch.fallbackTitle, ch.fallbackSub, '#94b8d7');
+
+      const keepsakeGridHTML = ch.isKeepsakeChapter ? `
+        <div class="keepsake-list">
+          <div class="keepsake-item">
+            <h4>Two Golf Balls (Apollo 14)</h4>
+            <p>Alan Shepard attached a 6-iron head to a rock-collecting handle and hit two golf balls across Fra Mauro.</p>
+          </div>
+          <div class="keepsake-item">
+            <h4>A Family Portrait (Apollo 16)</h4>
+            <p>Charlie Duke placed a photo of himself, his wife Dorothy, and their two sons onto the lunar dust.</p>
+          </div>
+          <div class="keepsake-item">
+            <h4>A Gold Olive Branch (Apollo 11)</h4>
+            <p>Neil Armstrong and Buzz Aldrin left a miniature solid-gold olive branch at Tranquility Base as a symbol of peace.</p>
+          </div>
+          <div class="keepsake-item">
+            <h4>Fallen Astronaut Plaque (Apollo 15)</h4>
+            <p>An aluminum figure lies beside a plaque honoring 14 astronauts and cosmonauts who gave their lives for space exploration.</p>
+          </div>
+        </div>
+      ` : '';
+
+      const prevBtnHTML = activeMoonIdx > 0
+        ? `<button class="nav-btn" onclick="selectMoonChapter(${activeMoonIdx - 1})">&larr; Previous Part (${moonChaptersDB[activeMoonIdx - 1].shortName})</button>`
+        : `<span></span>`;
+
+      const nextBtnHTML = activeMoonIdx < moonChaptersDB.length - 1
+        ? `<button class="quiz-action-btn" onclick="selectMoonChapter(${activeMoonIdx + 1})">Next Part: ${moonChaptersDB[activeMoonIdx + 1].shortName} &rarr;</button>`
+        : `<button class="quiz-action-btn" style="background:var(--accent-sage); color:#fff;" onclick="markMoonCompleteAndGoMars()">
+            ${marsVolumeDone ? 'Complete Lunar Volume &amp; Unlock Quiz &rarr;' : 'Complete Lunar Volume &amp; Continue to Mars &rarr;'}
+           </button>`;
+
+      document.getElementById('moonChapterStage').innerHTML = `
+        <article class="storybook-page moon-page">
+          <div class="book-chapter-label">${ch.era}</div>
+          <h2 class="book-chapter-title">${ch.title}</h2>
+
+          <figure class="book-illustration" onclick="openLightbox(this.querySelector('img').src, '${ch.caption.replace(/'/g, "\\'")}')">
+            <div class="book-illustration-stage">
+              <img src="${ch.imgUrl}" alt="${ch.shortName}" onerror="this.onerror=null; this.src='${fallbackDataUri}';" />
+            </div>
+            <figcaption class="book-caption">
+              <span>${ch.caption}</span>
+              <span class="zoom-hint">[ + Enlarge Plate ]</span>
+            </figcaption>
+          </figure>
+
+          <div class="machine-diary-bubble">
+            <span class="machine-diary-speaker">${ch.speaker}</span>
+            "${ch.quote}"
+          </div>
+
+          <div class="book-story-text">
+            ${ch.paragraphs.map((p, i) => `<p class="${i === 0 ? 'first-para' : ''}">${p}</p>`).join('')}
+          </div>
+
+          ${keepsakeGridHTML}
+
+          <!-- Point-Wise Chapter Summary -->
+          <div class="chapter-summary-box">
+            <div class="summary-box-title">Chapter Summary &mdash; Key Points</div>
+            <ul>
+              ${ch.summaryPoints.map(pt => `<li>${pt}</li>`).join('')}
+            </ul>
+          </div>
+
+          <!-- Fun Facts Box -->
+          <div class="chapter-funfacts-box">
+            <div class="funfacts-title">Archival Field Notes &amp; Fun Facts</div>
+            <ul>
+              ${ch.funFacts.map(ff => `<li>${ff}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="chapter-pager-bar">
+            ${prevBtnHTML}
+            ${nextBtnHTML}
+          </div>
+        </article>
+      `;
+    }
+
+    /* RENDER MARS SIDEBAR & ACTIVE CHAPTER */
+    function selectMarsChapter(idx) {
+      activeMarsIdx = idx;
+      marsReadSet.add(idx);
+      if (marsReadSet.size === marsChaptersDB.length) {
+        marsVolumeDone = true;
+      }
+      renderMarsWorkspace();
+      updateCompletionBadges();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function markMarsCompleteAndProceed() {
+      marsChaptersDB.forEach((_, i) => marsReadSet.add(i));
+      marsVolumeDone = true;
+      updateCompletionBadges();
+      if (moonVolumeDone) {
+        openPage('quiz');
+      } else {
+        openPage('moon');
+      }
+    }
+
+    function renderMarsWorkspace() {
+      document.getElementById('marsProgressText').textContent =
+        `Progress: ${marsReadSet.size} / ${marsChaptersDB.length} Chapters Read` + (marsVolumeDone ? " [Completed]" : "");
+
+      const listEl = document.getElementById('marsSidebarList');
+      listEl.innerHTML = marsChaptersDB.map((ch, idx) => {
+        const isAct = idx === activeMarsIdx ? 'active-mars-ch' : '';
+        const isRead = marsReadSet.has(idx);
+        return `
+          <button class="chapter-side-btn ${isAct}" onclick="selectMarsChapter(${idx})">
+            <div class="ch-btn-left">
+              <span class="ch-btn-num" style="color:var(--accent-terracotta);">Part ${ch.num}</span>
+              <span class="ch-btn-name">${ch.shortName}</span>
+            </div>
+            <span class="ch-check-indicator ${isRead ? 'read' : ''}">${isRead ? 'Read' : 'Pending'}</span>
+          </button>
+        `;
+      }).join('');
+
+      const ch = marsChaptersDB[activeMarsIdx];
+      const fallbackDataUri = buildSvgFallback(ch.fallbackTitle, ch.fallbackSub, '#d97757');
+
+      const prevBtnHTML = activeMarsIdx > 0
+        ? `<button class="nav-btn" onclick="selectMarsChapter(${activeMarsIdx - 1})">&larr; Previous Part (${marsChaptersDB[activeMarsIdx - 1].shortName})</button>`
+        : `<span></span>`;
+
+      const nextBtnHTML = activeMarsIdx < marsChaptersDB.length - 1
+        ? `<button class="quiz-action-btn" onclick="selectMarsChapter(${activeMarsIdx + 1})">Next Part: ${marsChaptersDB[activeMarsIdx + 1].shortName} &rarr;</button>`
+        : `<button class="quiz-action-btn" style="background:var(--accent-sage); color:#fff;" onclick="markMarsCompleteAndProceed()">
+            ${moonVolumeDone ? 'Complete Martian Volume &amp; Unlock Archive Quiz &rarr;' : 'Complete Martian Volume &amp; Finish The Moon &rarr;'}
+           </button>`;
+
+      document.getElementById('marsChapterStage').innerHTML = `
+        <article class="storybook-page mars-page">
+          <div class="book-chapter-label">${ch.era}</div>
+          <h2 class="book-chapter-title">${ch.title}</h2>
+
+          <figure class="book-illustration" onclick="openLightbox(this.querySelector('img').src, '${ch.caption.replace(/'/g, "\\'")}')">
+            <div class="book-illustration-stage">
+              <img src="${ch.imgUrl}" alt="${ch.shortName}" onerror="this.onerror=null; this.src='${fallbackDataUri}';" />
+            </div>
+            <figcaption class="book-caption">
+              <span>${ch.caption}</span>
+              <span class="zoom-hint">[ + Enlarge Plate ]</span>
+            </figcaption>
+          </figure>
+
+          <div class="machine-diary-bubble">
+            <span class="machine-diary-speaker">${ch.speaker}</span>
+            "${ch.quote}"
+          </div>
+
+          <div class="book-story-text">
+            ${ch.paragraphs.map((p, i) => `<p class="${i === 0 ? 'first-para' : ''}">${p}</p>`).join('')}
+          </div>
+
+          <!-- Point-Wise Chapter Summary -->
+          <div class="chapter-summary-box">
+            <div class="summary-box-title">Chapter Summary &mdash; Key Points</div>
+            <ul>
+              ${ch.summaryPoints.map(pt => `<li>${pt}</li>`).join('')}
+            </ul>
+          </div>
+
+          <!-- Fun Facts Box -->
+          <div class="chapter-funfacts-box">
+            <div class="funfacts-title">Archival Field Notes &amp; Fun Facts</div>
+            <ul>
+              ${ch.funFacts.map(ff => `<li>${ff}</li>`).join('')}
+            </ul>
+          </div>
+
+          <div class="chapter-pager-bar">
+            ${prevBtnHTML}
+            ${nextBtnHTML}
+          </div>
+        </article>
+      `;
+    }
+
+    function updateCompletionBadges() {
+      const dotMoon = document.getElementById('navDotMoon');
+      const dotMars = document.getElementById('navDotMars');
+      const navQuizBtn = document.getElementById('nav-quiz');
+      const navQuizLabel = document.getElementById('navQuizLabel');
+
+      if (moonVolumeDone) dotMoon.classList.add('done');
+      if (marsVolumeDone) dotMars.classList.add('done');
+
+      if (moonVolumeDone && marsVolumeDone) {
+        navQuizBtn.classList.remove('locked-quiz');
+        navQuizLabel.textContent = "03. Archive Quiz [Unlocked]";
+        document.getElementById('homeQuizTag').textContent = "Assessment Unlocked • Ready to Play";
+        document.getElementById('homeQuizSubtext').textContent = "Congratulations! You completed both volumes. Click here to take the 10-question Archive Quiz.";
+      }
+    }
+
+    function updateQuizLockView() {
+      const lockedView = document.getElementById('quizLockedView');
+      const unlockedView = document.getElementById('quizUnlockedView');
+
+      document.getElementById('lockMoonStatusText').textContent =
+        moonVolumeDone ? "Status: Completed (5 / 5 Read)" : `Status: ${moonReadSet.size} / 5 Chapters Read`;
+      document.getElementById('lockMarsStatusText').textContent =
+        marsVolumeDone ? "Status: Completed (7 / 7 Read)" : `Status: ${marsReadSet.size} / 7 Chapters Read`;
+
+      document.getElementById('lockBoxMoon').classList.toggle('completed', moonVolumeDone);
+      document.getElementById('lockBoxMars').classList.toggle('completed', marsVolumeDone);
+
+      if (moonVolumeDone && marsVolumeDone) {
+        lockedView.style.display = 'none';
+        unlockedView.style.display = 'block';
+      } else {
+        lockedView.style.display = 'block';
+        unlockedView.style.display = 'none';
+      }
+    }
+
+    function openLightbox(srcUrl, captionText) {
+      document.getElementById('lightboxImg').src = srcUrl;
+      document.getElementById('lightboxCaption').textContent = captionText;
+      document.getElementById('photoLightbox').classList.add('open');
+    }
+
+    function closeLightbox() {
+      document.getElementById('photoLightbox').classList.remove('open');
+    }
+
+    /* QUIZ & HONOUR ROLL LOGIC */
+    function getExplorerTitle(score) {
+      if (score === 10) return "Chief Archival Historian";
+      if (score >= 8) return "Senior Planetary Curator";
+      if (score >= 5) return "Mission Specialist";
+      return "Archive Cadet";
+    }
+
+    function renderQuizClue() {
+      document.getElementById('quizPlayArea').style.display = 'block';
+      document.getElementById('quizResultsArea').style.display = 'none';
+
+      const item = spaceQuizDB[currentClueIdx];
+      document.getElementById('quizStepBadge').textContent = `Clue ${String(currentClueIdx + 1).padStart(2, '0')} of ${spaceQuizDB.length}`;
+      document.getElementById('quizScoreLabel').textContent = `Score: ${currentQuizScore} / ${spaceQuizDB.length}`;
+      document.getElementById('quizProgressBar').style.width = `${((currentClueIdx + 1) / spaceQuizDB.length) * 100}%`;
+
+      document.getElementById('quizQuestionText').textContent = item.q;
+      document.getElementById('quizFeedbackText').textContent = '';
+
+      document.getElementById('quizOptionsBox').innerHTML = item.options.map((opt, idx) => `
+        <button class="quiz-opt-btn" onclick="checkClueAnswer(${idx}, this)">${opt}</button>
+      `).join('');
+
+      const nextBtn = document.getElementById('quizNextBtn');
+      nextBtn.disabled = true;
+      nextBtn.innerHTML = (currentClueIdx === spaceQuizDB.length - 1)
+        ? "View Final Assessment &rarr;"
+        : "Next Clue &rarr;";
+    }
+
+    function checkClueAnswer(selectedIdx, btnEl) {
+      const item = spaceQuizDB[currentClueIdx];
+      const allBtns = document.querySelectorAll('.quiz-opt-btn');
+      allBtns.forEach(b => b.disabled = true);
+
+      const feedback = document.getElementById('quizFeedbackText');
+      if (selectedIdx === item.answer) {
+        btnEl.classList.add('correct');
+        currentQuizScore++;
+        document.getElementById('quizScoreLabel').textContent = `Score: ${currentQuizScore} / ${spaceQuizDB.length}`;
+        feedback.style.color = 'var(--accent-sage)';
+        feedback.textContent = item.explain;
+      } else {
+        btnEl.classList.add('wrong');
+        allBtns[item.answer].classList.add('correct');
+        feedback.style.color = 'var(--accent-crimson)';
+        feedback.textContent = item.explain;
+      }
+
+      document.getElementById('quizNextBtn').disabled = false;
+    }
+
+    function nextQuizClue() {
+      if (currentClueIdx < spaceQuizDB.length - 1) {
+        currentClueIdx++;
+        renderQuizClue();
+      } else {
+        showFinalQuizScreen();
+      }
+    }
+
+    function showFinalQuizScreen() {
+      document.getElementById('quizPlayArea').style.display = 'none';
+      document.getElementById('quizResultsArea').style.display = 'block';
+
+      const pct = Math.round((currentQuizScore / spaceQuizDB.length) * 100);
+      const title = getExplorerTitle(currentQuizScore);
+
+      document.getElementById('quizFinalRank').textContent = title;
+      document.getElementById('quizFinalScoreBig').textContent = `${currentQuizScore} / ${spaceQuizDB.length} (${pct}%)`;
+      document.getElementById('quizFinalMessage').textContent =
+        currentQuizScore === spaceQuizDB.length
+          ? "Flawless archival mastery. You identified every historical mission across the Moon and Mars."
+          : `You answered ${currentQuizScore} out of ${spaceQuizDB.length} archival clues accurately. Record your name below on the Honour Roll.`;
+
+      scoreAlreadySaved = false;
+      document.getElementById('saveLbBtn').disabled = false;
+      document.getElementById('saveLbConfirm').style.display = 'none';
+    }
+
+    function restartSpaceQuiz() {
+      currentClueIdx = 0;
+      currentQuizScore = 0;
+      renderQuizClue();
+    }
+
+    function getLbStorage() {
+      try {
+        const raw = localStorage.getItem('beyond_earth_leaderboard_v3');
+        if (raw) return JSON.parse(raw);
+      } catch (e) {}
+      return [...defaultQuizLeaderboard];
+    }
+
+    function saveLbStorage(list) {
+      try {
+        localStorage.setItem('beyond_earth_leaderboard_v3', JSON.stringify(list));
+      } catch (e) {}
+    }
+
+    function renderLeaderboardTable() {
+      const list = getLbStorage();
+      list.sort((a, b) => b.score - a.score);
+      const tbody = document.getElementById('leaderboardTableBody');
+      tbody.innerHTML = list.slice(0, 8).map((row, idx) => {
+        const rankStr = String(idx + 1).padStart(2, '0');
+        const colorStyle = idx === 0 ? "color:var(--accent-champagne); font-weight:700;" : "font-weight:600;";
+        return `
+          <tr>
+            <td style="font-family:var(--font-mono); ${colorStyle}">${rankStr}</td>
+            <td style="font-weight:600;">${row.name}</td>
+            <td style="font-family:var(--font-mono); color:var(--accent-champagne); font-weight:600;">${row.score} / ${row.total}</td>
+            <td style="font-size:0.84rem; color:var(--text-muted);">${row.title}</td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function savePlayerScore() {
+      if (scoreAlreadySaved) return;
+      const input = document.getElementById('playerNameInput');
+      const playerName = (input.value || '').trim() || 'Archive Explorer';
+      const title = getExplorerTitle(currentQuizScore);
+
+      const list = getLbStorage();
+      list.push({
+        name: playerName.replace(/[<>]/g, ''),
+        score: currentQuizScore,
+        total: spaceQuizDB.length,
+        title: title
+      });
+      saveLbStorage(list);
+      renderLeaderboardTable();
+
+      scoreAlreadySaved = true;
+      document.getElementById('saveLbBtn').disabled = true;
+      document.getElementById('saveLbConfirm').style.display = 'block';
+      input.value = '';
+    }
+
+    function resetSpaceLeaderboard() {
+      saveLbStorage([...defaultQuizLeaderboard]);
+      renderLeaderboardTable();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderMoonWorkspace();
+      renderMarsWorkspace();
+      renderQuizClue();
+      renderLeaderboardTable();
+    });
+  </script>
+</body>
+</html>
